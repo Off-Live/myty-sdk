@@ -88,3 +88,6 @@ mono_crash*
 
 # From MYTYKit Package
 Assets/MYTYKit
+
+# libmediapipe
+libmediapipe_c.dylib
