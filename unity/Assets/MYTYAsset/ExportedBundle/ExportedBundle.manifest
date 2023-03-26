@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 110713032
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: mytyasset_webgl
+      Dependencies: {}
