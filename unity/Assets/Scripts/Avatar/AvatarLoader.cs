@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class AvatarLoader : MonoBehaviour
 {
-    [SerializeField]
-    MotionTemplateMapper m_motionTemplateMapper;
-    
     RenderTexture m_vrRenderTexture;
 
+    [SerializeField]
+    MotionSource m_motionSource;
+    
     [SerializeField]
     Material m_fvAvatarMaterial;
     [SerializeField]
@@ -51,7 +51,6 @@ public class AvatarLoader : MonoBehaviour
         
         var masImporter = m_avatar.AddComponent<MASImporter>();
         masImporter.templateRoot = m_avatar.transform;
-        masImporter.motionTemplateMapper = m_motionTemplateMapper;
         masImporter.LoadCollectionMetadata(templateJson);
         
         var avatarRoot = new GameObject("AvatarRoot")
@@ -66,6 +65,9 @@ public class AvatarLoader : MonoBehaviour
         m_avatar.GetComponentInChildren<Camera>().targetTexture = m_vrRenderTexture;
         m_fvAvatarMaterial.mainTexture = m_vrRenderTexture;
         m_avatarRenderer.material = m_fvAvatarMaterial;
+
+        m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
+        m_motionSource.UpdateMotionAndTemplates();
         
         SetARMode(false);
         
