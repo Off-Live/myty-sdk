@@ -39,12 +39,28 @@ namespace Editor
             {
                 (target as MessageHandler.MessageHandler)!.SetARMode(arModeToggle.value);
             };
+            
+            var load3DAvatar = new Button
+            {
+                text = "Load 3D Avatar"
+            };
+            
+            load3DAvatar.clicked += () =>
+            {
+                (target as MessageHandler.MessageHandler)!.Load3DAvatar();
+            };
+                
+            // var avatarLoader = EditorGUILayout.ObjectField("Avatar Loader", (target as MessageHandler.MessageHandler)!.avatarLoader,typeof(AvatarLoader), true);
+            //
+            // var avatar3DLoader = EditorGUILayout.ObjectField("Avatar 3D Loader", (target as MessageHandler.MessageHandler)!.avatar3DLoader,typeof(Avatar3DLoader), true);
 
             root.Add(tokenIdField);
             root.Add(selectAvatar);
             
             root.Add(arModeToggle);
             root.Add(applyARMode);
+            
+            root.Add(load3DAvatar);
             
             return root;
         }

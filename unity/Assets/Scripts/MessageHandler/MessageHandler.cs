@@ -5,20 +5,27 @@ namespace MessageHandler
 {
     public class MessageHandler : MonoBehaviour
     {
-        AvatarLoader m_avatarLoader;
+        public AvatarLoader avatarLoader;
+        public Avatar3DLoader avatar3DLoader;
         private void Start()
         {
-            m_avatarLoader = FindObjectOfType<AvatarLoader>();
+            avatarLoader = FindObjectOfType<AvatarLoader>();
+            avatar3DLoader = FindObjectOfType<Avatar3DLoader>();
         }
 
         public void SelectAvatar(string tokenID)
         {
-            m_avatarLoader.SelectAvatar(tokenID);
+            avatarLoader.SelectAvatar(tokenID);
         }
 
         public void SetARMode(bool flag)
         {
-            m_avatarLoader.SetARMode(flag);
+            avatarLoader.SetARMode(flag);
+        }
+
+        public void Load3DAvatar()
+        {
+            avatar3DLoader.LoadAvatar();
         }
     }
 }
