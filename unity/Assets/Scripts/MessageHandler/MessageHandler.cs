@@ -1,5 +1,6 @@
-using System;
 using Avatar;
+using Data;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace MessageHandler
@@ -16,24 +17,29 @@ namespace MessageHandler
             avatarManager = FindObjectOfType<AvatarManager>();
         }
 
-        public void LoadAvatar(
-            long assetVersionId,
-            string templateAssetUri,
-            string tokenId,
-            string tokenAssetUri
-        )
+        public void LoadAvatar(string message)
         {
-            avatarLoader.LoadAvatar(assetVersionId, templateAssetUri, tokenId, tokenAssetUri);
+            var obj = JsonConvert.DeserializeObject<LoadAvatarMessage>(message);
+            avatarLoader.LoadAvatar(
+                obj!.assetVersionId,
+                obj!.templateAssetUri,
+                obj!.tokenId,
+                obj!.tokenAssetUri
+            );
         }
 
-        public void SelectAvatar(long assetVersionId, string tokenID)
+        public void SelectAvatar(string message)
         {
-            avatarManager.SelectAvatar(assetVersionId, tokenID);
+            var obj = JsonConvert.DeserializeObject<SelectAvatarMessage>(message);
+            avatarManager.SelectAvatar(
+                obj!.assetVersionId,
+                obj!.tokenId
+            );
         }
 
-        public void SetARMode(bool flag)
+        public void SetARMode(string flag)
         {
-            avatarManager.SetARMode(flag);
+            avatarManager.SetARMode(flag == "true");
         }
 
         public void Load3DAvatar()

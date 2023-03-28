@@ -1,3 +1,5 @@
+using Data;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -10,7 +12,7 @@ namespace Editor
         public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
-            
+
             var assetVersionIdField1 = new LongField
             {
                 label = "Asset Version ID"
@@ -38,12 +40,15 @@ namespace Editor
             
             loadAvatarButton.clicked += (() =>
             {
-                (target as MessageHandler.MessageHandler)!.LoadAvatar(
-                    assetVersionIdField1.value,
-                    templateAssetUriField.value,
-                    tokenIdField1.value,
-                    tokenAssetUriField.value
-                    );
+                var obj = new LoadAvatarMessage { 
+                    assetVersionId = assetVersionIdField1.value,
+                    templateAssetUri = templateAssetUriField.value,
+                    tokenId = tokenIdField1.value,
+                    tokenAssetUri = tokenAssetUriField.value
+                };
+                
+                var message = JsonConvert.SerializeObject(obj);
+                (target as MessageHandler.MessageHandler)!.LoadAvatar(message);
             });
             
             var assetVersionIdField2 = new LongField
@@ -63,10 +68,16 @@ namespace Editor
             
             selectAvatar.clicked += () =>
             {
-                (target as MessageHandler.MessageHandler)!.SelectAvatar(assetVersionIdField2.value, tokenIdField.value);
+                var obj = new SelectAvatarMessage
+                    {
+                        assetVersionId = assetVersionIdField2.value,
+                        tokenId = tokenIdField.value
+                    };
+                var message = JsonConvert.SerializeObject(obj);
+                (target as MessageHandler.MessageHandler)!.SelectAvatar(message);
             };
             
-            var arModeToggle = new Toggle
+            var arModeField = new TextField
             {
                 label = "AR Mode"
             };
@@ -78,7 +89,7 @@ namespace Editor
             
             applyARMode.clicked += () =>
             {
-                (target as MessageHandler.MessageHandler)!.SetARMode(arModeToggle.value);
+                (target as MessageHandler.MessageHandler)!.SetARMode(arModeField.value);
             };
             
             var load3DAvatar = new Button
@@ -101,7 +112,7 @@ namespace Editor
             root.Add(tokenIdField);
             root.Add(selectAvatar);
             
-            root.Add(arModeToggle);
+            root.Add(arModeField);
             root.Add(applyARMode);
             
             root.Add(load3DAvatar);
