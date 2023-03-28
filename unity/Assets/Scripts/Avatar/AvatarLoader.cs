@@ -1,104 +1,77 @@
-using System.Collections.Generic;
-using System.IO;
-using MYTYKit.AvatarImporter;
-using MYTYKit.MotionTemplates;
+using System.Collections;
+using Avatar;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class AvatarLoader : MonoBehaviour
 {
-    RenderTexture m_vrRenderTexture;
-
-    // [SerializeField]
-    // MotionSource m_motionSource;
-    
-    [SerializeField]
-    Material m_fvAvatarMaterial;
-    [SerializeField]
-    Material m_arFaceMaterial;
-    [SerializeField]
-    Material m_arAvatarMaterial;
-    [SerializeField]
-    MeshRenderer m_avatarRenderer;
-    [SerializeField]
-    GameObject m_arFacePlane;
-    
-    void Start()
-    {
-        m_vrRenderTexture = new RenderTexture(1280, 720, 0, RenderTextureFormat.ARGB32);
-        var templateBytes = File.ReadAllBytes(Application.streamingAssetsPath + "/ExampleAssets/GhostsProject/collection_mas_metadata.zip");
-        var map = new Dictionary<string, byte[]>();
-        map["1"] = File.ReadAllBytes(Application.streamingAssetsPath + "/ExampleAssets/GhostsProject/1.zip");
-        map["2"] = File.ReadAllBytes(Application.streamingAssetsPath + "/ExampleAssets/GhostsProject/2.zip");
-        map["3"] = File.ReadAllBytes(Application.streamingAssetsPath + "/ExampleAssets/GhostsProject/3.zip");
-        LoadAvatar(templateBytes, "Ghosts", map);
-    }
-
-    GameObject m_avatar;
-    Dictionary<string, byte[]> m_tokenMap;
+    [SerializeField] AvatarManager m_avatarManager;
 
     public void LoadAvatar(
-        byte[] templateJson,
-        string avatarName,
-        Dictionary<string, byte[]> tokenMap)
+        long assetVersionId,
+        string templateAssetUri,
+        string tokenId,
+        string tokenAssetUri)
     {
-        m_avatar = new GameObject(avatarName)
+        if (!m_avatarManager.IsAvatarExists(assetVersionId))
         {
-            transform =
-            {
-                parent = transform
-            }
-        };
-        
-        var masImporter = m_avatar.AddComponent<MASImporter>();
-        masImporter.templateRoot = m_avatar.transform;
-        masImporter.LoadCollectionMetadata(templateJson);
-        
-        var avatarRoot = new GameObject("AvatarRoot")
-        {
-            transform =
-            {
-                parent = m_avatar.transform
-            }
-        };
-        masImporter.avatarRoot = avatarRoot.transform;
-        
-        m_avatar.GetComponentInChildren<Camera>().targetTexture = m_vrRenderTexture;
-        m_fvAvatarMaterial.mainTexture = m_vrRenderTexture;
-        m_avatarRenderer.material = m_fvAvatarMaterial;
-
-        // m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
-        // m_motionSource.UpdateMotionAndTemplates();
-        
-        SetARMode(false);
-        
-        m_tokenMap = tokenMap;
-    }
-
-    public void SelectAvatar(string tokenId)
-    {
-        var importer = m_avatar.GetComponent<MASImporter>();
-
-        var time = Time.time;
-        importer.UnloadAvatar();
-        importer.LoadAvatar(m_tokenMap[tokenId], tokenId);
-        Debug.Log($"Elapsed : {Time.time - time}");
-    }
-
-    public void SetARMode(bool flag)
-    {
-        var importer = m_avatar.GetComponent<MASImporter>();
-        importer.SetARMode(flag);
-        if (flag)
-        {
-            m_arFacePlane.SetActive(true);
-            var arFaceTexture = importer.currentARCamera.targetTexture;
-            m_arFaceMaterial.mainTexture = arFaceTexture;
-            m_avatarRenderer.material = null;
+            StartCoroutine(LoadTemplate(assetVersionId, templateAssetUri, tokenId, tokenAssetUri));
         }
-        else
+        else if (!m_avatarManager.IsTokenExists(assetVersionId, tokenId))
         {
-            m_arFacePlane.SetActive(false);
-            m_avatarRenderer.material = m_fvAvatarMaterial;
+            StartCoroutine(LoadToken(assetVersionId, tokenId, tokenAssetUri));
+        }
+    }
+
+    private IEnumerator LoadTemplate(
+        long assetVersionId,
+        string templateAssetUri,
+        string tokenId,
+        string tokenAssetUri
+    )
+    {
+        using (UnityWebRequest uwr = UnityWebRequest.Get(templateAssetUri))
+        {
+            yield return uwr.SendWebRequest();
+
+            if (uwr.result == UnityWebRequest.Result.Success)
+            {
+                var bytes = uwr.downloadHandler.data;
+
+                m_avatarManager.AddAvatarObject(assetVersionId, bytes);
+
+                if (!m_avatarManager.IsTokenExists(assetVersionId, tokenId))
+                {
+                    yield return LoadToken(assetVersionId, tokenId, tokenAssetUri);
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to Load asset from ${templateAssetUri}");
+            }
+        }
+    }
+
+    private IEnumerator LoadToken(
+        long assetVersionId,
+        string tokenId,
+        string tokenAssetUri
+    )
+    {
+        using (UnityWebRequest uwr = UnityWebRequest.Get(tokenAssetUri))
+        {
+            yield return uwr.SendWebRequest();
+
+            if (uwr.result == UnityWebRequest.Result.Success)
+            {
+                var bytes = uwr.downloadHandler.data;
+
+                m_avatarManager.AddToken(assetVersionId, tokenId, bytes);
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to Load asset from ${tokenAssetUri}");
+            }
         }
     }
 }

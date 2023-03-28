@@ -1751,6 +1751,54 @@ MonoBehaviour:
   lookAt: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
   scale: {x: 0, y: 0, z: 0}
+--- !u!1 &881611408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 881611409}
+  - component: {fileID: 881611410}
+  m_Layer: 0
+  m_Name: AvatarManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &881611409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881611408}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25526273, y: 2.44, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &881611410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881611408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 092253a6a0514d998d991e38e47f253a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_fvAvatarMaterial: {fileID: 2100000, guid: 99e8bff26f8ca4f31a974ee30835c3d5, type: 2}
+  m_arFaceMaterial: {fileID: 2100000, guid: e9ee15d0386b242d5a0cc2f9a0384a1d, type: 2}
+  m_avatarRenderer: {fileID: 1951166375}
+  m_arFacePlane: {fileID: 359893745}
 --- !u!1 &900634143
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarLoader: {fileID: 0}
   avatar3DLoader: {fileID: 0}
+  avatarManager: {fileID: 0}
 --- !u!1 &1383831486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,11 +2770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02204f6fd5f740ce8936bbce29dd407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fvAvatarMaterial: {fileID: 2100000, guid: 99e8bff26f8ca4f31a974ee30835c3d5, type: 2}
-  m_arFaceMaterial: {fileID: 2100000, guid: e9ee15d0386b242d5a0cc2f9a0384a1d, type: 2}
-  m_arAvatarMaterial: {fileID: 2100000, guid: f9b3b4cf6cc8c405fbea8ebeae1862e4, type: 2}
-  m_avatarRenderer: {fileID: 1951166375}
-  m_arFacePlane: {fileID: 359893745}
+  m_avatarManager: {fileID: 881611410}
 --- !u!1 &1478705162
 GameObject:
   m_ObjectHideFlags: 0

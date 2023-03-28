@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Editor
@@ -9,6 +10,46 @@ namespace Editor
         public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
+            
+            var assetVersionIdField1 = new LongField
+            {
+                label = "Asset Version ID"
+            };
+            
+            var templateAssetUriField = new TextField
+            {
+                label = "Template Uri"
+            };
+            
+            var tokenIdField1 = new TextField
+            {
+                label = "Token ID"
+            };
+            
+            var tokenAssetUriField = new TextField
+            {
+                label = "Token Uri"
+            };
+            
+            var loadAvatarButton = new Button
+            {
+                text = "Load Avatar"
+            };
+            
+            loadAvatarButton.clicked += (() =>
+            {
+                (target as MessageHandler.MessageHandler)!.LoadAvatar(
+                    assetVersionIdField1.value,
+                    templateAssetUriField.value,
+                    tokenIdField1.value,
+                    tokenAssetUriField.value
+                    );
+            });
+            
+            var assetVersionIdField2 = new LongField
+            {
+                label = "Asset Version ID"
+            };
             
             var tokenIdField = new TextField
             {
@@ -22,7 +63,7 @@ namespace Editor
             
             selectAvatar.clicked += () =>
             {
-                (target as MessageHandler.MessageHandler)!.SelectAvatar(tokenIdField.value);
+                (target as MessageHandler.MessageHandler)!.SelectAvatar(assetVersionIdField2.value, tokenIdField.value);
             };
             
             var arModeToggle = new Toggle
@@ -49,11 +90,14 @@ namespace Editor
             {
                 (target as MessageHandler.MessageHandler)!.Load3DAvatar();
             };
-                
-            // var avatarLoader = EditorGUILayout.ObjectField("Avatar Loader", (target as MessageHandler.MessageHandler)!.avatarLoader,typeof(AvatarLoader), true);
-            //
-            // var avatar3DLoader = EditorGUILayout.ObjectField("Avatar 3D Loader", (target as MessageHandler.MessageHandler)!.avatar3DLoader,typeof(Avatar3DLoader), true);
 
+            root.Add(assetVersionIdField1);
+            root.Add(tokenIdField1);
+            root.Add(templateAssetUriField);
+            root.Add(tokenAssetUriField);
+            root.Add(loadAvatarButton);
+            
+            root.Add(assetVersionIdField2);
             root.Add(tokenIdField);
             root.Add(selectAvatar);
             
