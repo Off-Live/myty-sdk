@@ -8,8 +8,8 @@ public class AvatarLoader : MonoBehaviour
 {
     RenderTexture m_vrRenderTexture;
 
-    [SerializeField]
-    MotionSource m_motionSource;
+    // [SerializeField]
+    // MotionSource m_motionSource;
     
     [SerializeField]
     Material m_fvAvatarMaterial;
@@ -66,8 +66,8 @@ public class AvatarLoader : MonoBehaviour
         m_fvAvatarMaterial.mainTexture = m_vrRenderTexture;
         m_avatarRenderer.material = m_fvAvatarMaterial;
 
-        m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
-        m_motionSource.UpdateMotionAndTemplates();
+        // m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
+        // m_motionSource.UpdateMotionAndTemplates();
         
         SetARMode(false);
         
