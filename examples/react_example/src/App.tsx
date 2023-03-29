@@ -1,11 +1,13 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Unity, useUnityContext } from 'react-unity-webgl';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from 'react-select';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { Container, TextField } from '@mui/material';
+import { Holistic } from '@mediapipe/holistic';
+import { from } from 'rxjs';
 
 export type AssetVersion = {
   id: number,
@@ -19,17 +21,21 @@ export type Asset = {
 }
 
 function App() {
+  const [templates, setTemplates] = useState<AssetVersion[]>([]);
+  const [tokens, setTokens] = useState<Asset[]>([]);
+  const [selectedToken, setSelectedToken] = useState<number>(0);
+  const holisticRef = useRef<Holistic|null>(null);
+  const cameraRef = useRef<HTMLVideoElement>(null);
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [counter, setCounter] = useState(0);
+  const [currentCam, setCurrentCam] = useState({ value: "", label: ""});
+
   const { unityProvider, isLoaded, sendMessage } = useUnityContext({
     loaderUrl: "WebGL/Build/WebGL.loader.js",
     dataUrl: "WebGL/Build/WebGL.data",
     frameworkUrl: "WebGL/Build/WebGL.framework.js",
     codeUrl: "WebGL/Build/WebGL.wasm",
   });
-
-  const [templates, setTemplates] = useState<AssetVersion[]>([]);
-  const [tokens, setTokens] = useState<Asset[]>([]);
-  const [options, setOptions] = useState([]);
-  const [selectedToken, setSelectedToken] = useState<number>(0);
 
   const fetchTemplates = () => {
     // fetch("https://api-dev.myty.space/asset/versions")
@@ -91,13 +97,98 @@ function App() {
     }))
   }
 
+  useEffect(() => {
+    const device$ = from(navigator.mediaDevices.enumerateDevices());
+    const subs = device$.subscribe((args) => {
+      setCurrentCam( { value : args[0].deviceId, label : args[0].label });
+      setDevices(args)
+    })
+    console.log(subs);
+
+    return () => {
+      subs.unsubscribe();
+    }
+  }, [setDevices, setCurrentCam]);
+
+  const deviceOptions = devices.map((device: MediaDeviceInfo) => ({ value: device.deviceId, label: device.label }));
+
+  function onCameraChanged(value: string, label: string) {
+    setCurrentCam({value: value, label: label});
+  }
+
+  useEffect( () => {
+    if(devices.length == 0) return;
+    if(currentCam.value == '') return;
+
+    const camera = devices.filter(dev => dev.deviceId == currentCam.value && dev.kind == 'videoinput')
+    const lastSource = cameraRef.current;
+    const subs$ = from(
+      navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { deviceId: camera[0].deviceId, width: 720, height: 480 },
+      })
+    ).subscribe((stream) => {
+      cameraRef.current!.srcObject = stream;
+      cameraRef.current!.play();
+    })
+
+    return () => {
+      subs$.unsubscribe();
+      const stream = lastSource!.srcObject as MediaStream;
+      const tracks = stream!.getTracks();
+      tracks.forEach( (track) => {
+        track.stop();
+      })
+    }
+  }, [devices, currentCam])
+
+  useEffect(() => {
+    holisticRef.current = new Holistic({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
+      }
+    })
+
+    holisticRef.current.setOptions({
+      selfieMode: true,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+      modelComplexity: 1,
+      smoothLandmarks:true
+    })
+
+    holisticRef.current.onResults( (result) => {
+      const motionData = {
+        face: result.faceLandmarks,
+        pose: result.poseLandmarks,
+        width: cameraRef.current?.videoWidth,
+        height: cameraRef.current?.videoHeight
+      }
+      setCounter(x => x+1);
+      sendMessage("MessageHandler", "ProcessMediapipe", JSON.stringify(motionData));
+    })
+  })
+
+  async function updateFunc() {
+    if(cameraRef.current && holisticRef.current) {
+      await holisticRef.current.send({image: cameraRef.current});
+    }
+  }
+
+  useEffect(() => {
+    if (counter > 0) updateFunc();
+  }, [counter])
+
   return (
     <div className="App">
       <Grid container spacing={2}>
         <Grid item xs={10}>
           <p> Demo </p>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={10}>
+          <Select options={deviceOptions} onChange={(item) => onCameraChanged(item!.value, item!.label)} />
+        </Grid>
+        <Grid item xs={10}>
           <Select options={avatarOptions} onChange={(item) => {if (item != null) {setSelectedToken(item!.value)}}}/>
         </Grid>
         <Grid item xs={5}>
@@ -112,6 +203,9 @@ function App() {
           <Container>
             <Unity style={{ visibility: isLoaded ? "visible" : "hidden", width: "720px", height: "480px"}} unityProvider={unityProvider}/>
           </Container>
+        </Grid>
+        <Grid item xs={10}>
+          <video ref={cameraRef} autoPlay={true} onLoadedData={updateFunc} hidden={true}/>
         </Grid>
       </Grid>
     </div>

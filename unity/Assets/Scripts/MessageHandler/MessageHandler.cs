@@ -46,5 +46,15 @@ namespace MessageHandler
         {
             avatar3DLoader.LoadAvatar();
         }
+
+        public void ProcessMediapipe(string json)
+        {
+            Debug.Log(json);
+        }
+
+        public void ProcessMocap4Face(string json)
+        {
+            Debug.Log(json);
+        }
     }
 }
