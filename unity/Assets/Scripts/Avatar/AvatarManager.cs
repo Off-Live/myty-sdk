@@ -49,7 +49,7 @@ namespace Avatar
             var masImporter = avatar.AddComponent<MASImporter>();
             masImporter.templateRoot = avatar.transform;
             masImporter.LoadCollectionMetadata(templateData);
-
+            
             m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
             m_motionSource.UpdateMotionAndTemplates();
 
@@ -114,6 +114,8 @@ namespace Avatar
             {
                 m_arFacePlane.SetActive(true);
                 var arFaceTexture = importer.currentARCamera.targetTexture;
+                importer.currentARCamera.clearFlags = CameraClearFlags.Color;
+                importer.currentARCamera.backgroundColor = new Color(0, 0, 0, 0);
                 m_arFaceMaterial.mainTexture = arFaceTexture;
                 m_avatarRenderer.material = null;
             }
