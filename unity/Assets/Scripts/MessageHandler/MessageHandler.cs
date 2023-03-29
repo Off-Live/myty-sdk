@@ -50,6 +50,11 @@ namespace MessageHandler
             avatar3DLoader.LoadAvatar();
         }
 
+        public void Load3DTraits()
+        {
+            avatar3DLoader.LoadTraits();
+        }
+
         public void ProcessMediapipe(string message)
         {
             var obj = JsonConvert.DeserializeObject<MediapipeData>(message);

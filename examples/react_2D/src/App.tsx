@@ -103,7 +103,6 @@ function App() {
       setCurrentCam( { value : args[0].deviceId, label : args[0].label });
       setDevices(args)
     })
-    console.log(subs);
 
     return () => {
       subs.unsubscribe();
