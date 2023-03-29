@@ -117,11 +117,12 @@ namespace Avatar
                 importer.currentARCamera.clearFlags = CameraClearFlags.Color;
                 importer.currentARCamera.backgroundColor = new Color(0, 0, 0, 0);
                 m_arFaceMaterial.mainTexture = arFaceTexture;
-                m_avatarRenderer.material = null;
+                m_avatarRenderer.gameObject.SetActive(false);
             }
             else
             {
                 m_arFacePlane.SetActive(false);
+                m_avatarRenderer.gameObject.SetActive(true);
                 m_avatarRenderer.material = m_fvAvatarMaterial;
             }
         }
