@@ -1,4 +1,4 @@
-using MotionSource.Mediapipe;
+using MotionSource;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;

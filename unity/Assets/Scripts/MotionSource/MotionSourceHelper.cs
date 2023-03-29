@@ -1,4 +1,4 @@
-namespace MotionSource.Mediapipe
+namespace MotionSource
 {
     public static class MotionSourceHelper
     {
