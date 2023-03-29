@@ -5,9 +5,15 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from 'react-select';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { Container, TextField } from '@mui/material';
+import { Container, FormControlLabel, FormGroup, Switch, TextField } from '@mui/material';
 import { Holistic } from '@mediapipe/holistic';
 import { from } from 'rxjs';
+import { 
+  ApplicationContext,
+  FaceTracker,
+  FaceTrackerResult,
+  ResourceFileSystem
+} from '@0xalter/mocap4face';
 
 export type AssetVersion = {
   id: number,
@@ -29,6 +35,8 @@ function App() {
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [counter, setCounter] = useState(0);
   const [currentCam, setCurrentCam] = useState({ value: "", label: ""});
+  const trackerRef = useRef<FaceTracker>();
+  const [m4fEnabled, setM4fEnabled] = useState(false);
 
   const { unityProvider, isLoaded, sendMessage } = useUnityContext({
     loaderUrl: "WebGL/Build/WebGL.loader.js",
@@ -158,6 +166,7 @@ function App() {
 
     holisticRef.current.onResults( (result) => {
       const motionData = {
+        m4fEnabled : m4fEnabled && trackerRef.current != null,
         face: result.faceLandmarks,
         pose: result.poseLandmarks,
         width: cameraRef.current?.videoWidth,
@@ -165,10 +174,14 @@ function App() {
       }
       setCounter((x) => x+1);
       sendMessage("MessageHandler", "ProcessMediapipe", JSON.stringify(motionData));
+      if(m4fEnabled && trackerRef.current != null) {
+        console.log(JSON.stringify(trackerRef.current?.track(cameraRef.current)));
+        // sendMessage("MesageHandler", "ProcessMocap4Face", JSON.stringify(trackerRef.current?.track(cameraRef.current)));
+      }
     })
-  }, [sendMessage,setCounter,currentCam])
+  }, [sendMessage,setCounter,currentCam, m4fEnabled, trackerRef])
 
-  async function updateFunc() {
+  async function updateFuncMP() {
     if(cameraRef.current && holisticRef.current) {
       await holisticRef.current.send({image: cameraRef.current});
     }
@@ -176,8 +189,20 @@ function App() {
 
   useEffect(() => {
     if (counter > 0)
-      updateFunc();
+      updateFuncMP();
   }, [counter])
+
+  useEffect(() => {
+    const context = new ApplicationContext(window.location.origin);
+    const fs = new ResourceFileSystem(context);
+    FaceTracker.createVideoTracker(fs)
+      .then(tracker => {
+        trackerRef.current = tracker;
+      })
+      .catchError(err => {
+        console.log('error: ' + err);
+      });
+  }, [currentCam])
 
   return (
     <div className="App">
@@ -197,6 +222,9 @@ function App() {
             <Button onClick={(item) => setARMode("true")}>Set AR Mode</Button>
             <Button onClick={(item) => setARMode("false")}>Disable AR Mode</Button>
             <Button onClick={(item) => selectAvatar(templates[0].id, tokens[selectedToken].tokenId)}>Select Avatar</Button>
+            <FormGroup>
+              <FormControlLabel control={<Switch onChange={(event, checked) => setM4fEnabled(checked) }/>} label="M4F" />
+            </FormGroup>
           </ButtonGroup>
         </Grid>
         <Grid item xs={5}>
@@ -205,7 +233,7 @@ function App() {
           </Container>
         </Grid>
         <Grid item xs={10}>
-          <video ref={cameraRef} autoPlay={true} onLoadedData={updateFunc} hidden={true}/>
+          <video ref={cameraRef} autoPlay={true} onLoadedData={updateFuncMP} hidden={true}/>
         </Grid>
       </Grid>
     </div>
