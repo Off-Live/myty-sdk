@@ -1,5 +1,6 @@
 using Avatar;
 using Data;
+using MotionSource;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,11 +11,13 @@ namespace MessageHandler
         public AvatarLoader avatarLoader;
         public Avatar3DLoader avatar3DLoader;
         public AvatarManager avatarManager;
+        public MotionProcessor motionProcessor;
         private void Start()
         {
             avatarLoader = FindObjectOfType<AvatarLoader>();
             avatar3DLoader = FindObjectOfType<Avatar3DLoader>();
             avatarManager = FindObjectOfType<AvatarManager>();
+            motionProcessor = FindObjectOfType<MotionProcessor>();
         }
 
         public void LoadAvatar(string message)
@@ -47,9 +50,11 @@ namespace MessageHandler
             avatar3DLoader.LoadAvatar();
         }
 
-        public void ProcessMediapipe(string json)
+        public void ProcessMediapipe(string message)
         {
-            Debug.Log(json);
+            var obj = JsonConvert.DeserializeObject<MediapipeData>(message);
+            motionProcessor.ProcessFaceMediapipe(obj!.face, obj!.width, obj!.height);
+            motionProcessor.ProcessPoseMediapipe(obj!.pose);
         }
 
         public void ProcessMocap4Face(string json)
