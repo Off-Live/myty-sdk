@@ -20,7 +20,6 @@ namespace Data
 
     public class MediapipeData
     {
-        public bool m4fEnabled;
         public List<Vector3> face;
         public List<Vector3> pose;
         public int width;
