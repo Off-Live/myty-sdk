@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace Editor
@@ -42,7 +43,7 @@ namespace Editor
 
         private static void DisableStripEngineCode()
         {
-            PlayerSettings.stripUnusedMeshComponents = false;
+            PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.WebGL, ManagedStrippingLevel.Disabled);
         }
 
         private static void AdjustColorSpace()
