@@ -43,7 +43,7 @@ namespace Editor
 
         private static void DisableStripEngineCode()
         {
-            PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.WebGL, ManagedStrippingLevel.Disabled);
+            PlayerSettings.stripEngineCode = false;
         }
 
         private static void AdjustColorSpace()
