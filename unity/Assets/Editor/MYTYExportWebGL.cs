@@ -8,7 +8,7 @@ namespace Editor
         [MenuItem("MYTY SDK/Export/WebGL")]
         private static void ExportWebGL()
         {
-            string buildPath = "../react/public/WebGL";
+            string buildPath = "../react/public/MYTY";
 
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             {
