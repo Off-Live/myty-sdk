@@ -12,7 +12,7 @@ namespace Editor
         [MenuItem("MYTY SDK/Select MotionSource/Mediapipe")]
         private static void AddMediapipe()
         {
-            var prefabPath = "Assets/Prefabs/Mediapipe.prefab";
+            var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
             
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             

@@ -8,7 +8,7 @@ public class MYTYSetupScene
     [MenuItem("MYTY SDK/Create 2D Scene")]
     private static void CreateScene()
     {
-        string prefabPath = "Assets/Prefabs/MYTYAvatarObjects.prefab";
+        string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTYAvatarObjects.prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
         if (prefab == null)
