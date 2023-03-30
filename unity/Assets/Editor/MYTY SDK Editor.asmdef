@@ -1,0 +1,19 @@
+{
+    "name": "MYTYSDK.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9513bc30d46ec4841a6fc8d80a91f1db",
+        "GUID:449bc5398af654da0a8c4b106656a6af"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
