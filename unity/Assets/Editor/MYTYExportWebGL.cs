@@ -25,7 +25,7 @@ namespace Editor
             
             DisableCompression();
             DisableStripEngineCode();
-            DisableAutoGraphics();
+            AdjustColorSpace();
 
             BuildOptions buildOptions = BuildOptions.None;
             string[] scenes = { UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().path };
@@ -45,9 +45,10 @@ namespace Editor
             PlayerSettings.stripUnusedMeshComponents = false;
         }
 
-        private static void DisableAutoGraphics()
+        private static void AdjustColorSpace()
         {
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
+            PlayerSettings.colorSpace = ColorSpace.Gamma;
         }
     }
 }
