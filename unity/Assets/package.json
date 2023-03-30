@@ -9,9 +9,6 @@
     "email": "myty@off.live",
     "url": "https://www.myty.space/"
   },
-  "include": {
-    "Runtime/Editor/**"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:Off-Live/myty-sdk-extensions.git"
