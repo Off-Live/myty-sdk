@@ -1,3 +1,4 @@
+using Avatar;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -38,6 +39,13 @@ public class MYTYSetupScene
 
             EditorSceneManager.SetActiveScene(newScene);
 
+            var messageHandlerObj = Object.FindObjectOfType<MessageHandler.MessageHandler>();
+            var avatarManagerObj = Object.FindObjectOfType<AvatarManager>();
+            var avatarLoaderObj = Object.FindObjectOfType<AvatarLoader>();
+            
+            messageHandlerObj.avatarManager = avatarManagerObj;
+            messageHandlerObj.avatarLoader = avatarLoaderObj;
+            
             Selection.activeGameObject = instance;
         }
         else
