@@ -25,6 +25,7 @@ namespace Editor
             
             DisableCompression();
             DisableStripEngineCode();
+            DisableAutoGraphics();
 
             BuildOptions buildOptions = BuildOptions.None;
             string[] scenes = { UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().path };
@@ -42,6 +43,11 @@ namespace Editor
         private static void DisableStripEngineCode()
         {
             PlayerSettings.stripUnusedMeshComponents = false;
+        }
+
+        private static void DisableAutoGraphics()
+        {
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
         }
     }
 }
