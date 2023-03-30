@@ -10,7 +10,7 @@ namespace Avatar
         [SerializeField] Material m_arFaceMaterial;
         [SerializeField] MeshRenderer m_avatarRenderer;
         [SerializeField] GameObject m_arFacePlane;
-        [SerializeField] MotionSource.MotionSource m_motionSource;
+        public MotionSource.MotionSource motionSource;
 
         Dictionary<(long, string), byte[]> m_assetMap = new();
         Dictionary<long, AvatarObject> m_assetVersionObjectMap = new();
@@ -50,8 +50,8 @@ namespace Avatar
             masImporter.templateRoot = avatar.transform;
             masImporter.LoadCollectionMetadata(templateData);
             
-            m_motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
-            m_motionSource.UpdateMotionAndTemplates();
+            motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
+            motionSource.UpdateMotionAndTemplates();
 
             var avatarRoot = new GameObject("AvatarRoot")
             {
