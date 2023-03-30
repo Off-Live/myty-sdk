@@ -11,14 +11,7 @@ namespace MessageHandler
         public AvatarLoader avatarLoader;
         public Avatar3DLoader avatar3DLoader;
         public AvatarManager avatarManager;
-        public MotionProcessor motionProcessor;
-        private void Start()
-        {
-            avatarLoader = FindObjectOfType<AvatarLoader>();
-            avatar3DLoader = FindObjectOfType<Avatar3DLoader>();
-            avatarManager = FindObjectOfType<AvatarManager>();
-            motionProcessor = FindObjectOfType<MotionProcessor>();
-        }
+        public MotionSource.MotionSource motionSource;
 
         public void LoadAvatar(string message)
         {
@@ -55,16 +48,9 @@ namespace MessageHandler
             avatar3DLoader.LoadTraits();
         }
 
-        public void ProcessMediapipe(string message)
+        public void ProcessCapturedResult(string message)
         {
-            var obj = JsonConvert.DeserializeObject<MediapipeData>(message);
-            motionProcessor.ProcessFaceMediapipe(obj!.face, obj!.width, obj!.height);
-            motionProcessor.ProcessPoseMediapipe(obj!.pose);
-        }
-
-        public void ProcessMocap4Face(string json)
-        {
-            Debug.Log(json);
+            motionSource.ProcessCapturedResult(message);
         }
     }
 }

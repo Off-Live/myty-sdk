@@ -1,24 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using MotionSource._3rdParty.MeFaMo;
 using MotionSource.Mediapipe.RiggingModels;
+using Newtonsoft.Json;
 using UnityEngine;
 
-namespace MotionSource
+namespace MotionSource.Mediapipe
 {
-    public class MotionProcessor : MonoBehaviour
+    public class MPMotionSource : MotionSource
     {
-        [SerializeField]
-        MotionSource m_motionSource;
-        
         MeFaMoSolver m_solver = new();
         Vector3[] m_solverBuffer;
-
-        public void ProcessFaceMediapipe(List<Vector3> faceData, int width, int height)
+        public override void ProcessCapturedResult(string result)
         {
-            var faceModels = m_motionSource.GetBridgesInCategory("FaceLandmark");
+            var obj = JsonConvert.DeserializeObject<MediapipeData>(result);
+            
+            var faceData = obj!.face;
+            
+            var faceBridges = GetBridgesInCategory("FaceLandmark");
 
-            foreach (var baseModel in faceModels.Select(model => model as MPBaseModel))
+            foreach (var baseModel in faceBridges.Select(model => model as MPBaseModel))
             {
                 ProcessNormalizedHolistic(baseModel, faceData);
             }
@@ -33,28 +35,29 @@ namespace MotionSource
                 m_solverBuffer[index] = elem;
             }
             
+            var (width, height) = (obj!.width, obj!.height);
+            
             m_solver.Solve(m_solverBuffer, width, height);
             
-            var solverModels = m_motionSource.GetBridgesInCategory("FaceSolver");
+            var solverBridges = GetBridgesInCategory("FaceSolver");
 
-            foreach (var model in solverModels)
+            foreach (var model in solverBridges)
             {
                 var solverModel = model as MPSolverModel;
                 if (solverModel == null) continue;
                 solverModel.SetSolver(m_solver);
                 solverModel.Flush();
             }
-        }
-
-        public void ProcessPoseMediapipe(List<Vector3> pose)
-        {
-            var poseModels = m_motionSource.GetBridgesInCategory("PoseLandmark");
-            foreach (var model in poseModels.Select(model => model as MPBaseModel))
+            
+            var pose = obj!.pose;
+            
+            var poseBridges = GetBridgesInCategory("PoseLandmark");
+            foreach (var model in poseBridges.Select(model => model as MPBaseModel))
             {
                 ProcessNormalizedHolistic(model, pose);
             }
         }
-        
+
         private void ProcessNormalizedHolistic(MPBaseModel model, List<Vector3> landmarkList)
         {
             if (model == null || landmarkList == null) return;
@@ -71,7 +74,5 @@ namespace MotionSource
         
             model.Flush();
         }
-        
-        // public void ProcessFaceM4F()
     }
 }

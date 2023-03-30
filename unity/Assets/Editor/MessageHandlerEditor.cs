@@ -12,6 +12,23 @@ namespace Editor
         public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
+            
+            var avatarLoader = new PropertyField();
+            avatarLoader.BindProperty(serializedObject.FindProperty("avatarLoader"));
+            
+            var avatar3DLoader = new PropertyField();
+            avatar3DLoader.BindProperty(serializedObject.FindProperty("avatar3DLoader"));
+            
+            var avatarManager = new PropertyField();
+            avatarManager.BindProperty(serializedObject.FindProperty("avatarManager"));
+            
+            var motionSource = new PropertyField();
+            motionSource.BindProperty(serializedObject.FindProperty("motionSource"));
+            
+            root.Add(avatarLoader);
+            root.Add(avatar3DLoader);
+            root.Add(avatarManager);
+            root.Add(motionSource);
 
             var assetVersionIdField1 = new LongField
             {

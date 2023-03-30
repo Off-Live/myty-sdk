@@ -19,7 +19,7 @@ namespace MotionSource
         public MotionTemplateBridge templateBridge;
     }
 
-    public class MotionSource : MonoBehaviour
+    public abstract class MotionSource : MonoBehaviour
     {
         [SerializeField] List<MotionCategory> motionCategories = new();
         [SerializeField] List<MTBridgeItem> templateBridgeMap = new();
@@ -110,5 +110,7 @@ namespace MotionSource
                 }
             }
         }
+        
+        public abstract void ProcessCapturedResult(string result);
     }
 }

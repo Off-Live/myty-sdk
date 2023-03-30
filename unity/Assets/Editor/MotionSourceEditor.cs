@@ -6,7 +6,8 @@ using UnityEngine.UIElements;
 
 namespace Editor
 {
-    [CustomEditor(typeof(MotionSource.MotionSource))]
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(MotionSource.MotionSource), true)]
     public class MotionSourceEditor:UnityEditor.Editor
     {
         public override VisualElement CreateInspectorGUI()
@@ -74,7 +75,6 @@ namespace Editor
             for (int i = 0; i < bridgeProp.arraySize; i++)
             {
                 bridgeProp.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = names[i];
-            
             }
             serializedObject.ApplyModifiedProperties();
 
