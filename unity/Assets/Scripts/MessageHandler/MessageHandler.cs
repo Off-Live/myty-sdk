@@ -13,6 +13,14 @@ namespace MessageHandler
         public AvatarManager avatarManager;
         public MotionSource.MotionSource motionSource;
 
+        void Start()
+        {
+            avatarLoader = FindObjectOfType<AvatarLoader>();
+            avatarManager = FindObjectOfType<AvatarManager>();
+            motionSource = FindObjectOfType<MotionSource.MotionSource>();
+            avatar3DLoader = FindObjectOfType<Avatar3DLoader>();
+        }
+        
         public void LoadAvatar(string message)
         {
             var obj = JsonConvert.DeserializeObject<LoadAvatarMessage>(message);
