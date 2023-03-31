@@ -2,6 +2,7 @@ using AR;
 using Avatar;
 using MYTYKit.MotionTemplates;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,7 @@ namespace Editor
         private static void AddMediapipe()
         {
             var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
-            
+
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             
             if (prefab == null)
@@ -27,6 +28,7 @@ namespace Editor
             if (instance != null)
             {
                 instance.name = prefab.name;
+                PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
 
                 instance.transform.position = Vector3.zero;
                 
@@ -47,6 +49,8 @@ namespace Editor
                 arFacePlane.motionTemplateMapper = motionTemplateMapper;
 
                 Selection.activeGameObject = instance;
+                
+                EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), SceneManager.GetActiveScene().path);
             }
             else
             {

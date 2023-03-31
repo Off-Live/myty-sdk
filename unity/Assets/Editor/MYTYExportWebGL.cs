@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Editor
 {
@@ -9,7 +10,7 @@ namespace Editor
         [MenuItem("MYTY SDK/Export/WebGL")]
         private static void ExportWebGL()
         {
-            string buildPath = "../react/public/MYTY";
+            string buildPath = "../react/public/WebGL";
 
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             {
@@ -29,7 +30,7 @@ namespace Editor
             AdjustColorSpace();
 
             BuildOptions buildOptions = BuildOptions.None;
-            string[] scenes = { UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene().path };
+            string[] scenes = { SceneManager.GetActiveScene().path };
 
             BuildPipeline.BuildPlayer(scenes, buildPath, BuildTarget.WebGL, buildOptions);
 
