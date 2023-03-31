@@ -46,8 +46,7 @@ public class MYTYSetupScene
     [MenuItem("MYTY SDK/Create 3D Scene")]
     private static void Create3DScene()
     {
-        // string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTY3DAvatarObjects.prefab";
-        string prefabPath = "Assets/Prefabs/MYTY3DAvatarObjects.prefab";
+        string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTY3DAvatarObjects.prefab";
 
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 
