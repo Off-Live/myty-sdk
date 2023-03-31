@@ -164,7 +164,7 @@ function App() {
         height: cameraRef.current?.videoHeight
       }
       setCounter((x) => x+1);
-      sendMessage("MessageHandler", "ProcessMediapipe", JSON.stringify(motionData));
+      sendMessage("MessageHandler", "ProcessCapturedResult", JSON.stringify(motionData));
     })
   }, [sendMessage,setCounter,currentCam])
 
