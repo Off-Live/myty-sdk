@@ -28,6 +28,9 @@ public class MYTYSetupScene
 
         if (instance != null && messageHandler != null)
         {
+            PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            PrefabUtility.UnpackPrefabInstance(messageHandler, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            
             instance.name = prefab.name;
             messageHandler.name = messageHandlerPrefab.name;
 
