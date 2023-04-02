@@ -87,7 +87,7 @@ function App() {
         height: cameraRef.current?.videoHeight
       }
       setCounter((x) => x+1);
-      sendMessage("MessageHandler", "ProcessMediapipe", JSON.stringify(motionData));
+      sendMessage("MessageHandler", "ProcessCapturedResult", JSON.stringify(motionData));
     })
   }, [sendMessage, setCounter, currentCam])
 
@@ -103,7 +103,7 @@ function App() {
   }, [counter])
 
   function Load3DAvatar() {
-    sendMessage("MessageHandler", "Load3DAvatar", '');
+    sendMessage("MessageHandler", "Load3DAvatar");
   }
   
   function Load3DTraits() {
