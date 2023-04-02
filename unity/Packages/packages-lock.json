@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "947105de3bf3279561dd59d307dd039109240e19"
+      "hash": "cf9ef8afe3dffaf9749148ce4cfa5b6505e71b2f"
     },
     "com.offlive.myty.myty-kit": {
       "version": "https://github.com/Off-Live/myty-kit.git?path=/Assets#pre-release/sdk-core-dev",
