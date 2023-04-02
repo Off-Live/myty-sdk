@@ -5,9 +5,16 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from 'react-select';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { Container } from '@mui/material';
+import { Container, FormControlLabel, FormGroup, Switch, TextField } from '@mui/material';
 import { Holistic } from '@mediapipe/holistic';
 import { from } from 'rxjs';
+import { 
+  ApplicationContext,
+  FaceTracker,
+  ResourceFileSystem,
+  Quaternion,
+  FaceTrackerResult
+} from '@0xalter/mocap4face';
 
 export type AssetVersion = {
   id: number,
@@ -20,15 +27,29 @@ export type Asset = {
   assetUri: string
 }
 
+function faceRotationToBlendshapes(rotation: Quaternion): Array<[string, number]> {
+  let euler = rotation.toEuler()
+  let halfPi = Math.PI * 0.5
+  return [
+      ['headLeft', Math.max(0, euler.y) / halfPi],
+      ['headRight', -Math.min(0, euler.y) / halfPi],
+      ['headUp', -Math.min(0, euler.x) / halfPi],
+      ['headDown', Math.max(0, euler.x) / halfPi],
+      ['headRollLeft', -Math.min(0, euler.z) / halfPi],
+      ['headRollRight', Math.max(0, euler.z) / halfPi],
+  ]
+}
+
 function App() {
   const [templates, setTemplates] = useState<AssetVersion[]>([]);
   const [tokens, setTokens] = useState<Asset[]>([]);
   const [selectedToken, setSelectedToken] = useState<number>(0);
-  const holisticRef = useRef<Holistic|null>(null);
+  // const [trackerResult, setTrackerResult] = useState<FaceTrackerResult|null>(null);
   const cameraRef = useRef<HTMLVideoElement>(null);
   const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
   const [counter, setCounter] = useState(0);
   const [currentCam, setCurrentCam] = useState({ value: "", label: ""});
+  const trackerRef = useRef<FaceTracker>();
 
   const { unityProvider, isLoaded, sendMessage } = useUnityContext({
     loaderUrl: "WebGL/Build/WebGL.loader.js",
@@ -141,43 +162,67 @@ function App() {
     }
   }, [devices, currentCam])
 
-    useEffect(() => {
-    holisticRef.current = new Holistic({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;
+  useEffect(() => {  
+    function performTracking() {
+      const trackerResult = trackerRef.current?.track(cameraRef.current);
+      const blendshapeArray = [];
+
+      if (trackerResult)
+      {
+        for(const [name, value] of trackerResult.blendshapes){
+          blendshapeArray.push({
+            name: name, 
+            value: value
+          })
+        }
+    
+        for(const [name, value] of faceRotationToBlendshapes(trackerResult!.rotationQuaternion)){
+          blendshapeArray.push({
+            name: name, 
+            value: value
+          })
+        }
+    
+        const data = {
+          blendshapes : blendshapeArray,
+          headPose : {
+            x:trackerResult.rotationQuaternion.toEuler().x,
+            y:trackerResult.rotationQuaternion.toEuler().y,
+            z:trackerResult.rotationQuaternion.toEuler().z,
+          },
+          normalizedPosition: {
+            x: trackerResult.normalizedImagePosition.x,
+            y: trackerResult.normalizedImagePosition.y,
+          },
+          normalizedScale: trackerResult.normalizedImageScale,
+        }
+    
+        sendMessage("MessageHandler", "ProcessCapturedResult", JSON.stringify(data));
       }
-    })
-
-    holisticRef.current.setOptions({
-      selfieMode: true,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-      modelComplexity: 1,
-      smoothLandmarks:true
-    })
-
-    holisticRef.current.onResults( (result) => {
-      const motionData = {
-        face: result.faceLandmarks,
-        pose: result.poseLandmarks,
-        width: cameraRef.current?.videoWidth,
-        height: cameraRef.current?.videoHeight
-      }
-      setCounter((x) => x+1);
-      sendMessage("MessageHandler", "ProcessMediapipe", JSON.stringify(motionData));
-    })
-  }, [sendMessage,setCounter,currentCam])
-
-  async function updateFunc() {
-    if(cameraRef.current && holisticRef.current) {
-      await holisticRef.current.send({image: cameraRef.current});
     }
-  }
+
+    const timer = setTimeout(() => {
+      if(cameraRef.current && trackerRef.current && counter > 0) {
+        performTracking();
+        setCounter(x => x+1);
+      }
+    }, 10);
+    
+    return () => clearTimeout(timer);
+
+  }, [sendMessage ,currentCam, trackerRef, counter, setCounter, cameraRef])
 
   useEffect(() => {
-    if (counter > 0)
-      updateFunc();
-  }, [counter])
+    const context = new ApplicationContext(window.location.origin);
+    const fs = new ResourceFileSystem(context);
+    FaceTracker.createVideoTracker(fs)
+      .then(tracker => {
+        trackerRef.current = tracker;
+      })
+      .catchError(err => {
+        console.log('error: ' + err);
+      });
+  }, [currentCam])
 
   return (
     <div className="App">
@@ -205,7 +250,7 @@ function App() {
           </Container>
         </Grid>
         <Grid item xs={10}>
-          <video ref={cameraRef} autoPlay={true} onLoadedData={updateFunc} hidden={true}/>
+          <video ref={cameraRef} autoPlay={true} onLoadedData={() => setCounter(1)} hidden={true}/>
         </Grid>
       </Grid>
     </div>
