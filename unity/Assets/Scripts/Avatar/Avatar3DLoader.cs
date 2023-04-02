@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,109 +21,157 @@ public class Avatar3DLoader : MonoBehaviour
     
     private byte[] m_cloneXMainBody;
     private string m_cloneXMetadata;
-    private Dictionary<string, byte[]> m_cloneXTraitMap;
+    private Dictionary<string, byte[]> m_traitMap = new();
 
     HttpClient m_client;
-    void Start()
+
+    public void Load3DAvatarTest()
     {
-#if UNITY_EDITOR
-        m_cloneXMainBody = File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_character_neutral_neutral.glb");
-        m_cloneXMetadata = File.ReadAllText(Application.streamingAssetsPath + "/3DAssets/CloneX/ExportedMetadata/CloneX_Female_SuitGeo.json");
-        m_cloneXTraitMap = new Dictionary<string, byte[]>
-        {
-            {"jacket", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_bone_pfa_jckt.glb")},
-            {"eyelash", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_neutral_eyelashes.glb")},
-            {"reptile", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_reptile.glb")},
-            {"smile", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_tctcl_smile.glb")},
-            {"thick", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_thick.glb")},
-            {"bwlcut", File.ReadAllBytes(Application.streamingAssetsPath + "/3DAssets/CloneX/f_rigged_wht_bwlcut.glb")},
-        };
-        Debug.Log("Editor");
-#else
-        Debug.Log("WebGL");
-        StartCoroutine(LoadWebGLAssets());
-#endif
-    }
-
-    private IEnumerator LoadWebGLAssets()
-    {
-        var appUrl = Application.absoluteURL;
-        var origin = new System.Uri(appUrl).GetLeftPart(System.UriPartial.Authority);
-        var url = origin + "/WebGL/StreamingAssets";
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_character_neutral_neutral.glb"))
-        {
-            yield return webRequest.SendWebRequest();
-
-            Debug.Log("mainbody");
-            m_cloneXMainBody = webRequest.downloadHandler.data;
-        }
-
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(url + "/3DAssets/CloneX/ExportedMetadata/CloneX_Female_SuitGeo.json"))
-        {
-            yield return webRequest.SendWebRequest();
-
-            Debug.Log("mainbodyMeta");
-            m_cloneXMetadata = webRequest.downloadHandler.text;
-        }
-        
-        m_cloneXTraitMap = new();
-
-        using (UnityWebRequest jacket = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_bone_pfa_jckt.glb"))
-        using (UnityWebRequest eyelash = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_neutral_eyelashes.glb"))
-        using (UnityWebRequest reptile = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_reptile.glb"))
-        using (UnityWebRequest smile = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_tctcl_smile.glb"))
-        using (UnityWebRequest thick = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_thick.glb"))
-        using (UnityWebRequest bwlcut = UnityWebRequest.Get(url + "/3DAssets/CloneX/f_rigged_wht_bwlcut.glb"))
-        {
-            yield return jacket.SendWebRequest();
-            
-            m_cloneXTraitMap["jacket"] = jacket.downloadHandler.data;
-            
-            yield return eyelash.SendWebRequest();
-            
-            m_cloneXTraitMap["eyelash"] = eyelash.downloadHandler.data;
-            
-            yield return reptile.SendWebRequest();
-            
-            m_cloneXTraitMap["reptile"] = reptile.downloadHandler.data;
-            
-            yield return smile.SendWebRequest();
-            
-            m_cloneXTraitMap["smile"] = smile.downloadHandler.data;
-            
-            yield return thick.SendWebRequest();
-            
-            m_cloneXTraitMap["thick"] = thick.downloadHandler.data;
-            
-            yield return bwlcut.SendWebRequest();
-            
-            m_cloneXTraitMap["bwlcut"] = bwlcut.downloadHandler.data;
-        }
-
-        Debug.Log("Done Downloading All Traits");
-    }
-
-    public void LoadAvatar()
-    {
-        m_importer.LoadMainbody(
-            m_cloneXMainBody,
-            m_cloneXMetadata,
-            LoadAvatarCallback
+        Debug.Log("Start Loading from network");
+        LoadAvatar(
+            1L,
+            "CloneX_Female",
+            "https://3d-asset-test.s3.ap-southeast-1.amazonaws.com/CloneX/mainbody.zip",
+            "0",
+            "https://3d-asset-test.s3.ap-southeast-1.amazonaws.com/CloneX/tokenId_0.zip",
+            new List<string>{"jacket", "reptile", "smile", "thick", "eyelashes", "bwlcut"}
         );
     }
 
-    public void LoadTraits()
+    public void LoadAvatar(
+        long assetVersionId,
+        string mainbodyGlbName,
+        string templateAssetUri,
+        string tokenId,
+        string traitsAssetUri,
+        List<string> traitNames)
     {
-        foreach (var pair in m_cloneXTraitMap)
+        StartCoroutine(
+            LoadMainBody(
+                assetVersionId,
+                mainbodyGlbName,
+                templateAssetUri,
+                tokenId,
+                traitsAssetUri,
+                traitNames
+            )
+        );
+    }
+
+    private IEnumerator LoadMainBody(
+        long assetVersionId,
+        string mainbodyGlbName,
+        string templateAssetUri,
+        string tokenId,
+        string traitsAssetUri,
+        List<string> traitNames)
+    {
+        using (UnityWebRequest uwr = UnityWebRequest.Get(templateAssetUri))
         {
-            m_importer.LoadTrait(pair.Value, pair.Key);
+            yield return uwr.SendWebRequest();
+
+            if (uwr.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Main body Download done");
+                var bytes = uwr.downloadHandler.data;
+
+                var jsonText = "";
+                byte[] mainBodyGlb;
+                using (var memoryStream = new MemoryStream(bytes))
+                {
+                    using (var zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
+                    {
+                        var metadataEntry = zipArchive.GetEntry("collection_mas_metadata.json");
+                        using (var reader = new StreamReader(metadataEntry.Open()))
+                        {
+                            jsonText = reader.ReadToEnd();
+                        }
+                        
+                        var glbEntry = zipArchive.GetEntry($"{mainbodyGlbName}.glb");
+                        using (var stream = glbEntry.Open())
+                        {
+                            mainBodyGlb = new byte[glbEntry.Length];
+                            stream.Read(mainBodyGlb, 0, mainBodyGlb.Length);
+                        }
+                    }
+                }
+                
+                m_importer.LoadMainbody(
+                    mainBodyGlb,
+                    jsonText,
+                    (avatar) =>
+                    {
+                        LoadAvatarCallback(avatar);
+                        StartCoroutine(LoadTraits(
+                            assetVersionId,
+                            tokenId,
+                            traitsAssetUri,
+                            traitNames
+                        ));
+                    });
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to Load asset from ${templateAssetUri}");
+            }
+        }
+    }
+
+    private IEnumerator LoadTraits(
+        long assetVersionId,
+        string tokenId,
+        string traitsAssetUri,
+        List<string> traitNames)
+    {
+        using (UnityWebRequest uwr = UnityWebRequest.Get(traitsAssetUri))
+        {
+            yield return uwr.SendWebRequest();
+            
+            if (uwr.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Traits Download Done");
+                var bytes = uwr.downloadHandler.data;
+
+                byte[] traitGlb;
+                using (var memoryStream = new MemoryStream(bytes))
+                {
+                    using (var zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Read))
+                    {
+                        foreach (var traitName in traitNames)
+                        {
+                            var glbEntry = zipArchive.GetEntry($"{traitName}.glb");
+
+                            if (glbEntry != null)
+                            {
+                                using (var stream = glbEntry.Open())
+                                {
+                                    traitGlb = new byte[glbEntry.Length];
+                                    stream.Read(traitGlb, 0, traitGlb.Length);
+                                }
+                
+                                m_traitMap[traitName] = traitGlb;
+                            }
+                        }
+                    }
+                }
+                
+                foreach (var pair in m_traitMap)
+                {
+                    m_importer.LoadTrait(pair.Value, pair.Key);
+                }
+                
+                Debug.Log($"{assetVersionId} / {tokenId} : Traits All loaded");
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to Load asset from ${traitsAssetUri}");
+            }
         }
     }
 
     private void LoadAvatarCallback(GameObject avatar)
     {
-        Debug.Log("Avatar Loaded");
+        Debug.Log("Main body Load Done");
         var texture = new RenderTexture(1280, 720, 0, RenderTextureFormat.ARGB32);
         m_renderCamera.targetTexture = texture;
         m_avatar3DMaterial.mainTexture = texture;

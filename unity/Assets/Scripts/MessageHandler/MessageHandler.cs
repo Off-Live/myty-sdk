@@ -1,6 +1,5 @@
 using Avatar;
 using Data;
-using MotionSource;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -48,12 +47,7 @@ namespace MessageHandler
 
         public void Load3DAvatar()
         {
-            avatar3DLoader.LoadAvatar();
-        }
-
-        public void Load3DTraits()
-        {
-            avatar3DLoader.LoadTraits();
+            avatar3DLoader.Load3DAvatarTest();
         }
 
         public void ProcessCapturedResult(string message)
