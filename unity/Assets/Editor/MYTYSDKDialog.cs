@@ -136,7 +136,7 @@ namespace Editor
                             MYTYSetupScene.Create3DScene();
                         }
                         
-                        MYTYExportWebGL.ExportWebGL();
+                        MYTYExportWebGL.ExportWebGL(true);
                     }
                     else if (m_platform == Platform.Mobile)
                     {

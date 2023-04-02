@@ -1,13 +1,14 @@
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 namespace Editor
 {
     public class MYTYExportWebGL
     {
-        public static void ExportWebGL()
+        public static void ExportWebGL(bool is3D = false)
         {
             string buildPath = "../react/public/WebGL";
 
@@ -27,6 +28,7 @@ namespace Editor
             DisableCompression();
             DisableStripEngineCode();
             AdjustColorSpace();
+            if(is3D) AddAlwaysIncludedShaders();
 
             BuildOptions buildOptions = BuildOptions.None;
             string[] scenes = { SceneManager.GetActiveScene().path };
@@ -50,6 +52,30 @@ namespace Editor
         {
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
             PlayerSettings.colorSpace = ColorSpace.Gamma;
+        }
+
+        private static void AddAlwaysIncludedShaders()
+        {
+            var graphicsSettings = AssetDatabase.LoadAssetAtPath<GraphicsSettings>("ProjectSettings/GraphicsSettings.asset");
+
+            Shader shaderToAdd = Shader.Find("Standard");
+
+            if (shaderToAdd == null)
+            {
+                Debug.LogError("Shader not found. Make sure the shader name is correct.");
+                return;
+            }
+
+            var serializedObject = new SerializedObject(graphicsSettings);
+            var arrayProp = serializedObject.FindProperty("m_AlwaysIncludedShaders");
+            var arrayIdx = arrayProp.arraySize;
+            arrayProp.InsertArrayElementAtIndex(arrayIdx);
+            var arrayElem = arrayProp.GetArrayElementAtIndex(arrayIdx);
+            arrayElem.objectReferenceValue = shaderToAdd;
+
+            serializedObject.ApplyModifiedProperties();
+
+            AssetDatabase.SaveAssets();
         }
     }
 }
