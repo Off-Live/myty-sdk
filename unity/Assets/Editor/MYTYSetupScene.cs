@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MYTYSetupScene
 {
-    [MenuItem("MYTY SDK/Create 2D Scene")]
-    private static void Create2DScene()
+    public static void Create2DScene()
     {
         string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTYAvatarObjects.prefab";
 
@@ -43,8 +42,7 @@ public class MYTYSetupScene
         }
     }
 
-    [MenuItem("MYTY SDK/Create 3D Scene")]
-    private static void Create3DScene()
+    public static void Create3DScene()
     {
         string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTY3DAvatarObjects.prefab";
 

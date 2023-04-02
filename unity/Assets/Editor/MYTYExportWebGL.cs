@@ -7,8 +7,7 @@ namespace Editor
 {
     public class MYTYExportWebGL
     {
-        [MenuItem("MYTY SDK/Export/WebGL")]
-        private static void ExportWebGL()
+        public static void ExportWebGL()
         {
             string buildPath = "../react/public/WebGL";
 

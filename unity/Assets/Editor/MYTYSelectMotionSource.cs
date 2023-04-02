@@ -10,8 +10,7 @@ namespace Editor
 {
     public class MYTYSelectMotionSource
     {
-        [MenuItem("MYTY SDK/Select MotionSource/Mediapipe")]
-        private static void AddMediapipe()
+        public static void AddMediapipe()
         {
             var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
 
@@ -58,8 +57,7 @@ namespace Editor
             }
         }
 
-        [MenuItem("MYTY SDK/Select MotionSource/Mocap4Face")]
-        private static void AddMocap4Face()
+        public static void AddMocap4Face()
         {
             var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mocap4Face.prefab";
 
