@@ -105,10 +105,6 @@ function App() {
   function Load3DAvatar() {
     sendMessage("MessageHandler", "Load3DAvatar");
   }
-  
-  function Load3DTraits() {
-    sendMessage("MessageHandler", "Load3DTraits");
-  }
 
   return (
     <div className="App">
@@ -121,7 +117,6 @@ function App() {
       <Grid item xs={5}>
         <ButtonGroup variant="contained" aria-label="outlined primary button group">
           <Button onClick={Load3DAvatar}>Load 3D Avatar</Button>
-          <Button onClick={Load3DTraits}>Load 3D Traits</Button>
         </ButtonGroup>
       </Grid>
       <Grid item xs={5}>
