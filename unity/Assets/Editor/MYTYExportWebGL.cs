@@ -34,6 +34,7 @@ namespace Editor
             if(is3D) AddAlwaysIncludedShaders();
 
             BuildOptions buildOptions = BuildOptions.None;
+            EditorUserBuildSettings.il2CppCodeGeneration = Il2CppCodeGeneration.OptimizeSpeed;
             string[] scenes = { SceneManager.GetActiveScene().path };
 
             var stopwatch = new Stopwatch();
