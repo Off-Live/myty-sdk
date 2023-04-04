@@ -30,7 +30,7 @@ namespace Editor
             
             ConfigureCompression();
             ConfirugeStrippingLevel();
-            AdjustColorSpace();
+            ConfigureGraphicsAPI();
             if(is3D) AddAlwaysIncludedShaders();
 
             BuildOptions buildOptions = BuildOptions.None;
@@ -57,7 +57,7 @@ namespace Editor
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.WebGL, ManagedStrippingLevel.Minimal);
         }
 
-        private static void AdjustColorSpace()
+        private static void ConfigureGraphicsAPI()
         {
             PlayerSettings.colorSpace = ColorSpace.Linear;
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
