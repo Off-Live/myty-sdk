@@ -1,8 +1,10 @@
+using System.Diagnostics;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 namespace Editor
 {
@@ -33,7 +35,11 @@ namespace Editor
             BuildOptions buildOptions = BuildOptions.None;
             string[] scenes = { SceneManager.GetActiveScene().path };
 
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             BuildPipeline.BuildPlayer(scenes, buildPath, BuildTarget.WebGL, buildOptions);
+            stopwatch.Stop();
+            Debug.Log($"Build Took {stopwatch.ElapsedMilliseconds} ms");
 
             Debug.Log("Exported scene to WebGL at path: " + buildPath);
         }
