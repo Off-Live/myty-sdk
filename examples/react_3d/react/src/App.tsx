@@ -15,9 +15,9 @@ function App() {
 
   const { unityProvider, isLoaded, sendMessage } = useUnityContext({
     loaderUrl: "WebGL/Build/WebGL.loader.js",
-    dataUrl: "WebGL/Build/WebGL.data",
-    frameworkUrl: "WebGL/Build/WebGL.framework.js",
-    codeUrl: "WebGL/Build/WebGL.wasm",
+    dataUrl: "WebGL/Build/WebGL.data.unityweb",
+    frameworkUrl: "WebGL/Build/WebGL.framework.js.unityweb",
+    codeUrl: "WebGL/Build/WebGL.wasm.unityweb",
   })
 
   useEffect(() => {
