@@ -137,6 +137,8 @@ namespace Editor
                         }
                         
                         MYTYExportWebGL.ExportWebGL(m_dimension == Dimension.ThreeD);
+                        
+                        Close();
                     }
                     else if (m_platform == Platform.Mobile)
                     {
@@ -165,6 +167,8 @@ namespace Editor
                         {
                             MYTYSetupScene.Create3DScene();
                         }
+                        
+                        Close();
                     }
                     else if (m_platform == Platform.Mobile)
                     {
