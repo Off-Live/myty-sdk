@@ -14,11 +14,7 @@ public class Avatar3DLoader : MonoBehaviour
 {
     [SerializeField]
     MYTY3DAvatarImporter m_importer;
-    [SerializeField]
-    Material m_avatar3DMaterial;
-    [SerializeField]
-    Camera m_renderCamera;
-    
+
     private byte[] m_cloneXMainBody;
     private string m_cloneXMetadata;
     private Dictionary<string, byte[]> m_traitMap = new();
@@ -172,8 +168,5 @@ public class Avatar3DLoader : MonoBehaviour
     private void LoadAvatarCallback(GameObject avatar)
     {
         Debug.Log("Main body Load Done");
-        var texture = new RenderTexture(1280, 720, 0, RenderTextureFormat.ARGB32);
-        m_renderCamera.targetTexture = texture;
-        m_avatar3DMaterial.mainTexture = texture;
     }
 }
