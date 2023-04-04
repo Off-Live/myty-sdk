@@ -28,7 +28,7 @@ namespace Editor
             }
             
             ConfigureCompression();
-            DisableStripEngineCode();
+            ConfirugeStrippingLevel();
             AdjustColorSpace();
             if(is3D) AddAlwaysIncludedShaders();
 
@@ -50,9 +50,10 @@ namespace Editor
             PlayerSettings.WebGL.decompressionFallback = true;
         }
 
-        private static void DisableStripEngineCode()
+        private static void ConfirugeStrippingLevel()
         {
-            PlayerSettings.stripEngineCode = false;
+            PlayerSettings.stripEngineCode = true;
+            PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.WebGL, ManagedStrippingLevel.Minimal);
         }
 
         private static void AdjustColorSpace()
