@@ -27,7 +27,7 @@ namespace Editor
                 }
             }
             
-            DisableCompression();
+            ConfigureCompression();
             DisableStripEngineCode();
             AdjustColorSpace();
             if(is3D) AddAlwaysIncludedShaders();
@@ -44,9 +44,10 @@ namespace Editor
             Debug.Log("Exported scene to WebGL at path: " + buildPath);
         }
         
-        private static void DisableCompression()
+        private static void ConfigureCompression()
         {
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli;
+            PlayerSettings.WebGL.decompressionFallback = true;
         }
 
         private static void DisableStripEngineCode()
