@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
@@ -58,8 +59,13 @@ namespace Editor
 
         private static void AdjustColorSpace()
         {
+            PlayerSettings.colorSpace = ColorSpace.Linear;
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.WebGL, false);
-            PlayerSettings.colorSpace = ColorSpace.Gamma;
+            var currentAPIs = PlayerSettings.GetGraphicsAPIs(BuildTarget.WebGL);
+            if (currentAPIs.Contains(GraphicsDeviceType.OpenGLES2))
+            {
+                PlayerSettings.SetGraphicsAPIs(BuildTarget.WebGL, currentAPIs.Where(api => api != GraphicsDeviceType.OpenGLES2).ToArray());
+            }
         }
 
         private static void AddAlwaysIncludedShaders()
