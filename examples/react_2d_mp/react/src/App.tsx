@@ -1,19 +1,7 @@
 import './App.css';
-import { useEffect, useState } from 'react';
 import { MYTYSDKContextProvider} from "./context/MYTYSDKContext"
 import ExampleView from './components/ExampleView';
 import { VideoDeviceContextProvider } from './context/VideoDeviceContext';
-
-export type AssetVersion = {
-  id: number,
-  description: string,
-  assetUri: string
-}
-
-export type Asset = {
-  tokenId: string,
-  assetUri: string
-}
 
 function App() {
   return (
