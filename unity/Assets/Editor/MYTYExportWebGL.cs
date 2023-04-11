@@ -13,7 +13,13 @@ namespace Editor
     {
         public static void ExportWebGL(bool is3D = false)
         {
-            string buildPath = "../react/public/WebGL";
+            string buildPath = EditorUtility.OpenFolderPanel("Choose Build Path", ".", "") + "/WebGL";
+
+            if (string.IsNullOrEmpty(buildPath))
+            {
+                Debug.LogWarning("Cancelled exporting scene to WebGL.");
+                return;
+            }
 
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             {
