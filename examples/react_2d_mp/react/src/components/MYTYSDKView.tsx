@@ -27,6 +27,7 @@ const MYTYSDKView = () => {
             width: '720px',
             height: '480px',
           }}
+          devicePixelRatio={2}
           unityProvider={unityContext.unityProvider}
         />
         <video
