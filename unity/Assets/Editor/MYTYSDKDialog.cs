@@ -8,8 +8,8 @@ namespace Editor
     {
         private enum Platform
         {
-            Web,
-            Mobile
+            Web
+            // Mobile
         }
 
         private enum Dimension
@@ -21,7 +21,6 @@ namespace Editor
         private enum MotionCaptureTool
         {
             Mediapipe,
-            Mocap4Face,
             ARKit
         }
 
@@ -49,10 +48,10 @@ namespace Editor
                 m_platform = Platform.Web;
             }
 
-            if (GUILayout.Toggle(m_platform == Platform.Mobile, "  Mobile", EditorStyles.radioButton))
-            {
-                m_platform = Platform.Mobile;
-            }
+            // if (GUILayout.Toggle(m_platform == Platform.Mobile, "  Mobile", EditorStyles.radioButton))
+            // {
+                // m_platform = Platform.Mobile;
+            // }
 
             GUILayout.EndHorizontal();
 
@@ -85,12 +84,6 @@ namespace Editor
                     {
                         m_motionCaptureTool = MotionCaptureTool.Mediapipe;
                     }
-
-                    if (GUILayout.Toggle(m_motionCaptureTool == MotionCaptureTool.Mocap4Face, "  Mocap4Face",
-                            EditorStyles.radioButton))
-                    {
-                        m_motionCaptureTool = MotionCaptureTool.Mocap4Face;
-                    }
                 }
                 else if (m_platform == Platform.Web && m_dimension == Dimension.ThreeD)
                 {
@@ -100,14 +93,14 @@ namespace Editor
                         m_motionCaptureTool = MotionCaptureTool.Mediapipe;
                     }
                 }
-                else if (m_platform == Platform.Mobile)
-                {
-                    if (GUILayout.Toggle(m_motionCaptureTool == MotionCaptureTool.ARKit, "  ARKit",
-                            EditorStyles.radioButton))
-                    {
-                        m_motionCaptureTool = MotionCaptureTool.ARKit;
-                    }
-                }
+                // else if (m_platform == Platform.Mobile)
+                // {
+                    // if (GUILayout.Toggle(m_motionCaptureTool == MotionCaptureTool.ARKit, "  ARKit",
+                            // EditorStyles.radioButton))
+                    // {
+                        // m_motionCaptureTool = MotionCaptureTool.ARKit;
+                    // }
+                // }
 
                 GUILayout.EndHorizontal();
             }
@@ -126,10 +119,10 @@ namespace Editor
                             {
                                 MYTYSelectMotionSource.AddMediapipe();
                             }
-                            else if (m_motionCaptureTool == MotionCaptureTool.Mocap4Face)
-                            {
-                                MYTYSelectMotionSource.AddMocap4Face();
-                            }
+                            // else if (m_motionCaptureTool == MotionCaptureTool.Mocap4Face)
+                            // {
+                                // MYTYSelectMotionSource.AddMocap4Face();
+                            // }
                         }
                         else if (m_dimension == Dimension.ThreeD)
                         {
@@ -140,10 +133,10 @@ namespace Editor
                         
                         Close();
                     }
-                    else if (m_platform == Platform.Mobile)
-                    {
-                        Debug.Log("Mobile is not supported yet");
-                    }
+                    // else if (m_platform == Platform.Mobile)
+                    // {
+                        // Debug.Log("Mobile is not supported yet");
+                    // }
                 }
 
                 if (GUILayout.Button("Create Scene"))
@@ -158,10 +151,6 @@ namespace Editor
                             {
                                 MYTYSelectMotionSource.AddMediapipe();
                             }
-                            else if (m_motionCaptureTool == MotionCaptureTool.Mocap4Face)
-                            {
-                                MYTYSelectMotionSource.AddMocap4Face();
-                            }
                         }
                         else if (m_dimension == Dimension.ThreeD)
                         {
@@ -170,10 +159,10 @@ namespace Editor
                         
                         Close();
                     }
-                    else if (m_platform == Platform.Mobile)
-                    {
-                        Debug.Log("Mobile is not supported yet");
-                    }
+                    // else if (m_platform == Platform.Mobile)
+                    // {
+                        // Debug.Log("Mobile is not supported yet");
+                    // }
                 }
             }
 
