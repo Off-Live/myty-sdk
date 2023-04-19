@@ -48,6 +48,8 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-    <string>Need to access your camera for tracking face</string>
+	<string>Need to access your camera for tracking face</string>
+	<key>io.flutter.embedded_view_preview</key>
+	<string>YES</string>
 </dict>
 </plist>
