@@ -67,7 +67,7 @@ namespace Editor
                 var message = JsonConvert.SerializeObject(obj);
                 (target as MessageHandler.MessageHandler)!.LoadAvatar(message);
             });
-            
+
             var assetVersionIdField2 = new LongField
             {
                 label = "Asset Version ID"
@@ -118,13 +118,28 @@ namespace Editor
             {
                 (target as MessageHandler.MessageHandler)!.Load3DAvatar();
             };
+            
+            var motionCapturedInput = new TextField
+            {
+                label = "MotionCaptured"
+            };
+            
+            var captureMotion = new Button
+            {
+                text = "Capture Motion"
+            };
+            
+            captureMotion.clicked += () =>
+            {
+                (target as MessageHandler.MessageHandler)!.ProcessCapturedResult(motionCapturedInput.value);
+            };
 
             root.Add(assetVersionIdField1);
             root.Add(tokenIdField1);
             root.Add(templateAssetUriField);
             root.Add(tokenAssetUriField);
             root.Add(loadAvatarButton);
-            
+
             root.Add(assetVersionIdField2);
             root.Add(tokenIdField);
             root.Add(selectAvatar);
@@ -133,6 +148,9 @@ namespace Editor
             root.Add(applyARMode);
             
             root.Add(load3DAvatar);
+            
+            root.Add(motionCapturedInput);
+            root.Add(captureMotion);
             
             return root;
         }

@@ -32,7 +32,7 @@ namespace MotionSource.ARKit.RiggingModels
             var mouthPouker = m_blendshapes.mouthPucker;
             var mouthLeftHalf = Mathf.Max(m_blendshapes.mouthStretchLeft, m_blendshapes.mouthSmileLeft);
                             
-            var mouthRightHalf =Mathf.Max(m_blendshapes.mouthStretchRight, m_blendshapes.mouthSmileRight);
+            var mouthRightHalf = Mathf.Max(m_blendshapes.mouthStretchRight, m_blendshapes.mouthSmileRight);
                              
             var mouthNeutralX = 0.4f;
 
