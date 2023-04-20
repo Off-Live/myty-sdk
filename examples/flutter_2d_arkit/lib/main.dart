@@ -21,15 +21,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UnityBloc(),
-      child: const FaceDetection(title: 'MYTY Example'),
+      child: MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(title: const Text('MYTY Example')),
+          body: const FaceDetection(),
+        ),
+      ),
     );
   }
 }
 
 class FaceDetection extends StatefulWidget {
-  const FaceDetection({super.key, required this.title});
-
-  final String title;
+  const FaceDetection({super.key});
 
   @override
   State<FaceDetection> createState() => _FaceDetectionState();
@@ -44,67 +47,64 @@ class _FaceDetectionState extends State<FaceDetection> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
-        body: Stack(
-          children: [
-            ARKitSceneView(
-              configuration: ARKitConfiguration.faceTracking,
-              onARKitViewCreated: onARKitViewCreated,
-            ),
-            UnityWidget(
-              onUnityCreated: (controller) => {
-                context
-                    .read<UnityBloc>()
-                    .add(UnityInitializedEvent(controller: controller))
-              },
-              onUnityMessage: (message) {
-                var fromUnity = jsonDecode(message);
-                var decoded = SelectAvatarMessage(
-                  assetVersionId: fromUnity['assetVersionId'],
-                  tokenId: fromUnity['tokenId']
-                );
+    return Stack(
+      children: [
+        ARKitSceneView(
+          configuration: ARKitConfiguration.faceTracking,
+          onARKitViewCreated: onARKitViewCreated,
+        ),
+        // CustomPaint(
+        //   painter: FacePointPainter(point: _facePoints),
+        //   child: Container()
+        // ),
+        UnityWidget(
+          onUnityCreated: (controller) {
+            context
+                .read<UnityBloc>()
+                .add(UnityInitializedEvent(controller: controller));
+          },
+          onUnityMessage: (message) {
+            var fromUnity = jsonDecode(message);
+            var decoded = SelectAvatarMessage(
+                assetVersionId: fromUnity['assetVersionId'],
+                tokenId: fromUnity['tokenId']);
+            setState(() {
+              _loadedAvatarIds.add(decoded.tokenId);
+            });
+          },
+        ),
+        Positioned(
+            top: 20,
+            right: 10,
+            child: Switch(
+              value: _isARMode,
+              onChanged: (flag) {
                 setState(() {
-                  _loadedAvatarIds.add(decoded.tokenId);
+                  _isARMode = !_isARMode;
+                  context
+                      .read<UnityBloc>()
+                      .add(UnitySetARModeEvent(isARMode: _isARMode));
                 });
               },
+            )),
+        Positioned(
+          left: 10,
+          right: 10,
+          bottom: 30,
+          child: Center(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: _loadedAvatarIds
+                  .map((e) => AvatarButton(
+                        collectionAddress:
+                            "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+                        tokenID: e,
+                      ))
+                  .toList(),
             ),
-            Positioned(
-              top: 20,
-              right: 10,
-              child: Switch(
-                value: _isARMode,
-                onChanged: (flag) {
-                  setState(() {
-                    _isARMode = !_isARMode;
-                    context
-                        .read<UnityBloc>()
-                        .add(UnitySetARModeEvent(isARMode: _isARMode));
-                  });
-                },
-              )
-            ),
-            Positioned(
-              left: 10,
-              right: 10,
-              bottom: 30,
-              child: Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  children: _loadedAvatarIds
-                      .map((e) => AvatarButton(
-                            collectionAddress:
-                                "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-                            tokenID: e,
-                          ))
-                      .toList(),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -116,10 +116,20 @@ class _FaceDetectionState extends State<FaceDetection> {
   void _handleUpdateAnchor(ARKitAnchor anchor) async {
     if (anchor is ARKitFaceAnchor && mounted) {
       var upVector = anchor.transform.up;
-      var forwardVector = anchor.transform.forward;
+      final faceMatrix = anchor.transform;
+
+      final facePosition = vm.Vector3(faceMatrix.getColumn(3).x, faceMatrix.getColumn(3).y, faceMatrix.getColumn(3).z);
+
+      final screenCoordinates = await worldToScreen(facePosition);
+
+      if (!mounted) return;
+
+      var screenWidth = MediaQuery.of(context).size.width;
+      var screenHeight = MediaQuery.of(context).size.height;
+
       context.read<UnityBloc>().add(UnityMotionCapturedEvent(
           arKitData: ARKitData(
-              facePosition: vm.Vector3(0, 0, 0),
+              facePosition: vm.Vector3(screenCoordinates.x / screenWidth, screenCoordinates.y / screenHeight, 0),
               faceScale: vm.Vector3(1, 1, 1),
               up: vm.Vector3(-upVector.x, upVector.y, upVector.z),
               forward: anchor.transform.forward,
@@ -138,21 +148,12 @@ class _FaceDetectionState extends State<FaceDetection> {
                   mouthStretchLeft: anchor.blendShapes['mouthStretch_L'] ?? 0,
                   mouthStretchRight:
                       anchor.blendShapes['mouthStretch_R'] ?? 0))));
-
-      // arKitController.updateFaceGeometry(node!, anchor.identifier);
-      // final projectionMatrix = await arKitController.cameraProjectionMatrix();
-      // final viewMatrix = await arKitController.pointOfViewTransform();
-      // translation
-      // viewport translation
-      // ARKit samples -> apple developer
     }
   }
 
-  vm.Vector2 projectPoint(Matrix4 modelViewProjectionMatrix, vm.Vector3 point) {
-    final projectedPoint =
-        modelViewProjectionMatrix * vm.Vector4(point.x, point.y, point.z, 1.0);
-    final double x = (projectedPoint.x / projectedPoint.w + 1.0) / 2.0;
-    final double y = 1.0 - (projectedPoint.y / projectedPoint.w + 1.0) / 2.0;
-    return vm.Vector2(x, y);
+  Future<vm.Vector2> worldToScreen(vm.Vector3 worldPosition) async {
+    final projectPoint = await arKitController.projectPoint(worldPosition);
+
+    return vm.Vector2(projectPoint!.x, projectPoint.y);
   }
 }
