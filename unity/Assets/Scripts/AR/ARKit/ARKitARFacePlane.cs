@@ -19,7 +19,7 @@ namespace AR.ARKit
             
             facePlane.localPosition = new Vector3(toWorldPoint.x - renderingObjectsPosition.x, toWorldPoint.y- renderingObjectsPosition.y, -1f);
 
-            facePlane.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            facePlane.localScale = anchorTemplate.scale;
         }
     }
 }
