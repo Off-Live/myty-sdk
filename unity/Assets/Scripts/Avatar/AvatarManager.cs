@@ -81,6 +81,7 @@ namespace Avatar
         {
             m_assetMap[(assetVersionId, tokenId)] = tokenData;
             avatarLoadedEvent.Invoke(assetVersionId, tokenId);
+            SelectAvatar(assetVersionId, tokenId);
         }
 
         public void SelectAvatar(long assetVersionId, string tokenId)
@@ -100,7 +101,7 @@ namespace Avatar
                     }
                     importer.UnloadAvatar();
                     importer.LoadAvatar(tokenData, tokenId);
-                    importer.SetARMode(m_isARMode);
+                    ApplyARMode();
                     m_fvAvatarMaterial.mainTexture = target.vrRenderTexture;
                     m_avatarRenderer.material = m_fvAvatarMaterial;
                 }
