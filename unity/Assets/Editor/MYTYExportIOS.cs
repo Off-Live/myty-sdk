@@ -21,6 +21,7 @@ namespace Editor
             
             PlayerSettings.SetIl2CppCompilerConfiguration(BuildTargetGroup.iOS, Il2CppCompilerConfiguration.Release);
             EditorUserBuildSettings.il2CppCodeGeneration = UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize;
+            PlayerSettings.preserveFramebufferAlpha = true;
 
             string[] scenes = {SceneManager.GetActiveScene().path};
             var playerOptions = new BuildPlayerOptions
