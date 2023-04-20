@@ -11,33 +11,34 @@ part 'unity_state.dart';
 part 'unity_event.dart';
 
 class UnityBloc extends Bloc<UnityEvent, UnityState> {
+  // ignore: non_constant_identifier_names
   final String MessageHandler = 'MessageHandler';
 
-  UnityBloc() : super(const UnityState.initial()) {
+  UnityBloc() : super(UnityState.initial()) {
     on<UnityInitializedEvent>(_registerController);
     on<UnityLoadAvatarEvent>(_loadAvatar);
     on<UnitySelectAvatarEvent>(_selectAvatar);
     on<UnitySetARModeEvent>(_setARMode);
     on<UnityMotionCapturedEvent>(_motionCaptured);
+    on<UnityMessageArrivedEvent>(_onMessageArrived);
   }
 
   void _registerController(UnityInitializedEvent event, Emitter emit) {
-    emit(UnityState(controller: event.controller));
+    emit(state.copyWith(controller: event.controller));
 
-    [0, 1, 2, 3, 4, 5].forEach((e) => {
+    for (var e in [0, 1, 2, 3, 4, 5]) {
       _postMessage(
         UnityEventTopic.LoadAvatar,
         LoadAvatarMessage(
           assetVersionId: 0,
           templateAssetUri:
-          "https://10k-asset.s3.ap-southeast-1.amazonaws.com/mock/collection_mas_metadata.zip",
+              "https://10k-asset.s3.ap-southeast-1.amazonaws.com/mock/collection_mas_metadata.zip",
           tokenId: e.toString(),
           tokenAssetUri:
-          "https://10k-asset.s3.ap-southeast-1.amazonaws.com/mock/${e.toString()}.zip",
+              "https://10k-asset.s3.ap-southeast-1.amazonaws.com/mock/${e.toString()}.zip",
         ),
-      )
+      );
     }
-    );
   }
 
   void _loadAvatar(UnityLoadAvatarEvent event, _) {
@@ -75,6 +76,13 @@ class UnityBloc extends Bloc<UnityEvent, UnityState> {
     var topic = UnityEventTopic.ProcessCapturedResult;
 
     _postMessage(topic, event.arKitData);
+  }
+
+  void _onMessageArrived(UnityMessageArrivedEvent event, Emitter emit) {
+    var decoded = jsonDecode(event.message);
+
+    var currentAvatars = <String>[...state.loadedAvatars, decoded['tokenId']];
+    emit(state.copyWith(loadedAvatars: currentAvatars));
   }
 
   void _postMessage(UnityEventTopic topic, Object obj) {

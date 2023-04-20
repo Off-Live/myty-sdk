@@ -82,3 +82,11 @@ class UnityMotionCapturedEvent extends UnityEvent {
     required this.arKitData
   });
 }
+
+class UnityMessageArrivedEvent extends UnityEvent {
+  final String message;
+
+  UnityMessageArrivedEvent({
+    required this.message
+  });
+}
