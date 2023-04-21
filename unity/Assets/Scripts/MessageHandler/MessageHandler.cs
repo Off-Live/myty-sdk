@@ -25,8 +25,8 @@ namespace MessageHandler
         {
             var obj = JsonConvert.DeserializeObject<LoadAvatarMessage>(message);
             avatarLoader.LoadAvatar(
-                obj!.assetVersionId,
-                obj!.templateAssetUri,
+                obj!.avatarCollectionId,
+                obj!.metadataAssetUri,
                 obj!.tokenId,
                 obj!.tokenAssetUri
             );
@@ -36,7 +36,7 @@ namespace MessageHandler
         {
             var obj = JsonConvert.DeserializeObject<SelectAvatarMessage>(message);
             avatarManager.SelectAvatar(
-                obj!.assetVersionId,
+                obj!.avatarCollectionId,
                 obj!.tokenId
             );
         }

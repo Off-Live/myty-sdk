@@ -35,18 +35,18 @@ public class Avatar3DLoader : MonoBehaviour
     }
 
     public void LoadAvatar(
-        long assetVersionId,
+        long avatarCollectionId,
         string mainbodyGlbName,
-        string templateAssetUri,
+        string metadataAssetUri,
         string tokenId,
         string traitsAssetUri,
         List<string> traitNames)
     {
         StartCoroutine(
             LoadMainBody(
-                assetVersionId,
+                avatarCollectionId,
                 mainbodyGlbName,
-                templateAssetUri,
+                metadataAssetUri,
                 tokenId,
                 traitsAssetUri,
                 traitNames
@@ -55,14 +55,14 @@ public class Avatar3DLoader : MonoBehaviour
     }
 
     private IEnumerator LoadMainBody(
-        long assetVersionId,
+        long avatarCollectionId,
         string mainbodyGlbName,
-        string templateAssetUri,
+        string metadataAssetUri,
         string tokenId,
         string traitsAssetUri,
         List<string> traitNames)
     {
-        using (UnityWebRequest uwr = UnityWebRequest.Get(templateAssetUri))
+        using (UnityWebRequest uwr = UnityWebRequest.Get(metadataAssetUri))
         {
             yield return uwr.SendWebRequest();
 
@@ -99,7 +99,7 @@ public class Avatar3DLoader : MonoBehaviour
                     {
                         LoadAvatarCallback(avatar);
                         StartCoroutine(LoadTraits(
-                            assetVersionId,
+                            avatarCollectionId,
                             tokenId,
                             traitsAssetUri,
                             traitNames
@@ -108,13 +108,13 @@ public class Avatar3DLoader : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"Failed to Load asset from ${templateAssetUri}");
+                Debug.LogWarning($"Failed to Load asset from ${metadataAssetUri}");
             }
         }
     }
 
     private IEnumerator LoadTraits(
-        long assetVersionId,
+        long avatarCollectionId,
         string tokenId,
         string traitsAssetUri,
         List<string> traitNames)
@@ -156,7 +156,7 @@ public class Avatar3DLoader : MonoBehaviour
                     m_importer.LoadTrait(pair.Value, pair.Key);
                 }
                 
-                Debug.Log($"{assetVersionId} / {tokenId} : Traits All loaded");
+                Debug.Log($"{avatarCollectionId} / {tokenId} : Traits All loaded");
             }
             else
             {

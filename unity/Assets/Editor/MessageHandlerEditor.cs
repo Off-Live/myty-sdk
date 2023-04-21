@@ -30,14 +30,14 @@ namespace Editor
             root.Add(avatarManager);
             root.Add(motionSource);
 
-            var assetVersionIdField1 = new LongField
+            var avatarCollectionIdField1 = new LongField
             {
-                label = "Asset Version ID"
+                label = "Avatar Collection ID"
             };
             
-            var templateAssetUriField = new TextField
+            var metadataAssetUriField = new TextField
             {
-                label = "Template Uri"
+                label = "Metadata Asset Uri"
             };
             
             var tokenIdField1 = new TextField
@@ -47,7 +47,7 @@ namespace Editor
             
             var tokenAssetUriField = new TextField
             {
-                label = "Token Uri"
+                label = "Token Asset Uri"
             };
             
             var loadAvatarButton = new Button
@@ -58,8 +58,8 @@ namespace Editor
             loadAvatarButton.clicked += (() =>
             {
                 var obj = new LoadAvatarMessage { 
-                    assetVersionId = assetVersionIdField1.value,
-                    templateAssetUri = templateAssetUriField.value,
+                    avatarCollectionId = avatarCollectionIdField1.value,
+                    metadataAssetUri = metadataAssetUriField.value,
                     tokenId = tokenIdField1.value,
                     tokenAssetUri = tokenAssetUriField.value
                 };
@@ -68,9 +68,9 @@ namespace Editor
                 (target as MessageHandler.MessageHandler)!.LoadAvatar(message);
             });
 
-            var assetVersionIdField2 = new LongField
+            var avatarCollectionIdField2 = new LongField
             {
-                label = "Asset Version ID"
+                label = "Avatar Collection ID"
             };
             
             var tokenIdField = new TextField
@@ -87,7 +87,7 @@ namespace Editor
             {
                 var obj = new SelectAvatarMessage
                     {
-                        assetVersionId = assetVersionIdField2.value,
+                        avatarCollectionId = avatarCollectionIdField2.value,
                         tokenId = tokenIdField.value
                     };
                 var message = JsonConvert.SerializeObject(obj);
@@ -134,13 +134,13 @@ namespace Editor
                 (target as MessageHandler.MessageHandler)!.ProcessCapturedResult(motionCapturedInput.value);
             };
 
-            root.Add(assetVersionIdField1);
+            root.Add(avatarCollectionIdField1);
             root.Add(tokenIdField1);
-            root.Add(templateAssetUriField);
+            root.Add(metadataAssetUriField);
             root.Add(tokenAssetUriField);
             root.Add(loadAvatarButton);
 
-            root.Add(assetVersionIdField2);
+            root.Add(avatarCollectionIdField2);
             root.Add(tokenIdField);
             root.Add(selectAvatar);
             

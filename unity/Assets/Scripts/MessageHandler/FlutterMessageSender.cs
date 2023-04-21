@@ -10,12 +10,12 @@ namespace MessageHandler
         [SerializeField]
         UnityMessageManager m_unityMessageManager;
 
-        public void AvatarLoaded(long assetVersionId, string tokenId)
+        public void AvatarLoaded(long avatarCollectionId, string tokenId)
         {
             m_unityMessageManager.SendMessageToFlutter(
                 JsonConvert.SerializeObject(new SelectAvatarMessage
                 {
-                    assetVersionId = assetVersionId,
+                    avatarCollectionId = avatarCollectionId,
                     tokenId = tokenId
                 })    
             );

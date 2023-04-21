@@ -5,15 +5,15 @@ namespace Data
 {
     public class LoadAvatarMessage
     {
-        public long assetVersionId;
-        public string templateAssetUri;
+        public long avatarCollectionId;
+        public string metadataAssetUri;
         public string tokenId;
         public string tokenAssetUri;
     }
 
     public class SelectAvatarMessage
     {
-        public long assetVersionId;
+        public long avatarCollectionId;
         public string tokenId;
     }
 

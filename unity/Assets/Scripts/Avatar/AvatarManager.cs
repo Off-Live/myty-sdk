@@ -13,8 +13,8 @@ namespace Avatar
         [SerializeField] GameObject m_arFacePlane;
         public MotionSource.MotionSource motionSource;
 
-        Dictionary<(long, string), byte[]> m_assetMap = new();
-        Dictionary<long, AvatarObject> m_assetVersionObjectMap = new();
+        Dictionary<(long, string), byte[]> m_tokenDataMap = new();
+        Dictionary<long, AvatarObject> m_avatarCollectionObjectMap = new();
         
         public UnityEvent<long, string> avatarLoadedEvent; 
         
@@ -28,21 +28,21 @@ namespace Avatar
             public RenderTexture vrRenderTexture;
         }
 
-        public bool IsAvatarExists(long assetVersionId)
+        public bool IsAvatarExists(long avatarCollectionId)
         {
-            return m_assetVersionObjectMap.ContainsKey(assetVersionId);
+            return m_avatarCollectionObjectMap.ContainsKey(avatarCollectionId);
         }
 
-        public bool IsTokenExists(long assetVersionId, string tokenId)
+        public bool IsTokenExists(long avatarCollectionId, string tokenId)
         {
-            return m_assetMap.ContainsKey((assetVersionId, tokenId));
+            return m_tokenDataMap.ContainsKey((avatarCollectionId, tokenId));
         }
 
         public void AddAvatarObject(
-            long assetVersionId,
-            byte[] templateData)
+            long avatarCollectionId,
+            byte[] metadata)
         {
-            var avatar = new GameObject($"{assetVersionId}")
+            var avatar = new GameObject($"{avatarCollectionId}")
             {
                 transform =
                 {
@@ -53,7 +53,7 @@ namespace Avatar
 
             var masImporter = avatar.AddComponent<MASImporter>();
             masImporter.templateRoot = avatar.transform;
-            masImporter.LoadCollectionMetadata(templateData);
+            masImporter.LoadCollectionMetadata(metadata);
             
             motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
             motionSource.UpdateMotionAndTemplates();
@@ -69,28 +69,28 @@ namespace Avatar
 
             avatar.GetComponentInChildren<Camera>().targetTexture = vrRenderTexture;
 
-            m_assetVersionObjectMap[assetVersionId] = new AvatarObject
+            m_avatarCollectionObjectMap[avatarCollectionId] = new AvatarObject
                 { avatar = avatar, vrRenderTexture = vrRenderTexture };
         }
 
         public void AddToken(
-            long assetVersionId,
+            long avatarCollectionId,
             string tokenId,
             byte[] tokenData
         )
         {
-            m_assetMap[(assetVersionId, tokenId)] = tokenData;
-            avatarLoadedEvent.Invoke(assetVersionId, tokenId);
-            SelectAvatar(assetVersionId, tokenId);
+            m_tokenDataMap[(avatarCollectionId, tokenId)] = tokenData;
+            avatarLoadedEvent.Invoke(avatarCollectionId, tokenId);
+            SelectAvatar(avatarCollectionId, tokenId);
         }
 
-        public void SelectAvatar(long assetVersionId, string tokenId)
+        public void SelectAvatar(long avatarCollectionId, string tokenId)
         {
             AvatarObject target;
-            if (m_assetVersionObjectMap.TryGetValue(assetVersionId, out target))
+            if (m_avatarCollectionObjectMap.TryGetValue(avatarCollectionId, out target))
             {
                 byte[] tokenData;
-                if (m_assetMap.TryGetValue((assetVersionId, tokenId), out tokenData))
+                if (m_tokenDataMap.TryGetValue((avatarCollectionId, tokenId), out tokenData))
                 {
                     var importer = target.avatar.GetComponent<MASImporter>();
 
@@ -107,12 +107,12 @@ namespace Avatar
                 }
                 else
                 {
-                    Debug.LogWarning($"Unable to find avatar with token Id : {assetVersionId}-{tokenId}");
+                    Debug.LogWarning($"Unable to find avatar with token Id : {avatarCollectionId}-{tokenId}");
                 }
             }
             else
             {
-                Debug.LogWarning($"Unable to find avatar with asset version : {assetVersionId}");
+                Debug.LogWarning($"Unable to find avatar with asset version : {avatarCollectionId}");
             }
         }
 
