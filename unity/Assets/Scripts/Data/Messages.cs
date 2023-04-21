@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,19 +24,30 @@ namespace Data
         public int width;
         public int height;
     }
-    
-    public class M4FData
-    {
-        [Serializable]
-        public class M4FEntry
-        {
-            public string name;
-            public float value;
-        }
 
-        public List<M4FEntry> blendshapes;
-        public Vector3 headPose;
-        public Vector2 normalizedPosition;
-        public float normalizedScale;
+    public class ARKitData
+    {
+        public Vector3 facePosition;
+        public Vector3 faceScale;
+        public Vector3 up;
+        public Vector3 forward;
+        public ARKitBlendshape blendshapes;
+    }
+
+    public class ARKitBlendshape
+    {
+        public float eyeblinkLeft;
+        public float eyeblinkRight;
+        public float mouthPucker;
+        public float mouthStretchLeft;
+        public float mouthSmileLeft;
+        public float mouthStretchRight;
+        public float mouthSmileRight;
+        public float jawOpen;
+        public float mouthClose;
+        public float browDownLeft;
+        public float browOuterUpLeft;
+        public float browDownRight;
+        public float browOuterUpRight;
     }
 }

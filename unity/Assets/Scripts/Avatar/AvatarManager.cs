@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MYTYKit.AvatarImporter;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Avatar
 {
@@ -15,7 +16,11 @@ namespace Avatar
         Dictionary<(long, string), byte[]> m_assetMap = new();
         Dictionary<long, AvatarObject> m_assetVersionObjectMap = new();
         
+        public UnityEvent<long, string> avatarLoadedEvent; 
+        
         AvatarObject m_currentAvatar;
+        
+        bool m_isARMode = false;
 
         class AvatarObject
         {
@@ -75,6 +80,7 @@ namespace Avatar
         )
         {
             m_assetMap[(assetVersionId, tokenId)] = tokenData;
+            avatarLoadedEvent.Invoke(assetVersionId, tokenId);
             SelectAvatar(assetVersionId, tokenId);
         }
 
@@ -89,9 +95,13 @@ namespace Avatar
                     var importer = target.avatar.GetComponent<MASImporter>();
 
                     m_currentAvatar = target;
-                    SetARMode(false);
+                    if (m_isARMode)
+                    {
+                        importer.SetARMode(false);
+                    }
                     importer.UnloadAvatar();
                     importer.LoadAvatar(tokenData, tokenId);
+                    ApplyARMode();
                     m_fvAvatarMaterial.mainTexture = target.vrRenderTexture;
                     m_avatarRenderer.material = m_fvAvatarMaterial;
                 }
@@ -108,9 +118,15 @@ namespace Avatar
 
         public void SetARMode(bool flag)
         {
+            m_isARMode = flag;
+            ApplyARMode();
+        }
+
+        public void ApplyARMode()
+        {
             var importer = m_currentAvatar.avatar.GetComponent<MASImporter>();
-            importer.SetARMode(flag);
-            if (flag)
+            importer.SetARMode(m_isARMode);
+            if (m_isARMode)
             {
                 m_arFacePlane.SetActive(true);
                 var arFaceTexture = importer.currentARCamera.targetTexture;
