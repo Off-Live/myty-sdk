@@ -4,8 +4,8 @@ import { UnityContextHook } from "react-unity-webgl/distribution/types/unity-con
 
 export interface MYTYSDKContext {
     unityContext: UnityContextHook,
-    loadAvatar: (assetId: number, templateUri: string, tokenId: string, tokenUri: string) => void,
-    selectAvatar: (assetId: number, tokenId: string) => void,
+    loadAvatar: (avatarCollectionId: number, metadataAssetUri: string, tokenId: string, tokenAssetUri: string) => void,
+    selectAvatar: (avatarCollectionId: number, tokenId: string) => void,
     setARMode: (flag: string) => void,
     processCapturedResult: (data: string) => void,
     takeScreenshot: (dataType?: string, quality?: number) => string | undefined
@@ -17,18 +17,18 @@ const mytySDKContext = createContext({})
 const MYTYSDKContextProvider = ({ config, children }: { config: UnityConfig, children: React.ReactNode }) => {
     const unityContext = useUnityContext(config);
 
-    const loadAvatar = (assetId: number, templateUri: string, tokenId: string, tokenUri: string) => {
+    const loadAvatar = (avatarCollectionId: number, metadataAssetUri: string, tokenId: string, tokenAssetUri: string) => {
         unityContext.sendMessage(MESSAGE_HANDLER, "LoadAvatar", JSON.stringify({
-            assetVersionId: assetId,
-            templateAssetUri: templateUri,
+            avatarCollectionId: avatarCollectionId,
+            metadataAssetUri: metadataAssetUri,
             tokenId: tokenId,
-            tokenAssetUri: tokenUri
+            tokenAssetUri: tokenAssetUri
         }))
     }
 
-    const selectAvatar = (assetId: number, tokenId: string) => {
+    const selectAvatar = (avatarCollectionId: number, tokenId: string) => {
         unityContext.sendMessage(MESSAGE_HANDLER, "SelectAvatar", JSON.stringify({
-            assetVersionId: assetId,
+            avatarCollectionId: avatarCollectionId,
             tokenId: tokenId
         }))
     }
