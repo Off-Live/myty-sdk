@@ -44,8 +44,6 @@ namespace FlutterUnityIntegration
         {
             Debug.Log(e.Message);
         }
-#elif UNITY_WEBGL
-        OnUnityMessageWeb(message);
 #elif UNITY_IOS && !UNITY_EDITOR
         OnUnityMessage(message);
 #endif
