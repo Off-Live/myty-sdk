@@ -13,7 +13,17 @@ namespace Editor
         public static void AddMediapipe()
         {
             var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
+            AddMotionSource(prefabPath);
+        }
 
+        public static void AddARKit()
+        {
+            var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/ARKit.prefab";
+            AddMotionSource(prefabPath);
+        }
+
+        private static void AddMotionSource(string prefabPath)
+        {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             
             if (prefab == null)
