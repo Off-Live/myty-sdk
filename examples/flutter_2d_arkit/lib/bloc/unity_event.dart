@@ -36,13 +36,13 @@ extension UnityEventName on UnityEventTopic {
 }
 
 class UnityLoadAvatarEvent extends UnityEvent {
-  final num assetCollectionId;
+  final num avatarCollectionId;
   final String metadataAssetUri;
   final String tokenId;
   final String tokenAssetUri;
 
   UnityLoadAvatarEvent({
-    required this.assetCollectionId,
+    required this.avatarCollectionId,
     required this.metadataAssetUri,
     required this.tokenId,
     required this.tokenAssetUri
@@ -50,11 +50,11 @@ class UnityLoadAvatarEvent extends UnityEvent {
 }
 
 class UnitySelectAvatarEvent extends UnityEvent {
-  final num assetCollectionId;
+  final num avatarCollectionId;
   final String tokenId;
 
   UnitySelectAvatarEvent({
-    required this.assetCollectionId,
+    required this.avatarCollectionId,
     required this.tokenId
   });
 }

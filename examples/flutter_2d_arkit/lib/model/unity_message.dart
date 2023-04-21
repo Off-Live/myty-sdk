@@ -1,28 +1,28 @@
 import 'package:vector_math/vector_math_64.dart';
 
 class LoadAvatarMessage {
-  final num assetVersionId;
-  final String templateAssetUri;
+  final num avatarCollectionId;
+  final String metadataAssetUri;
   final String tokenId;
   final String tokenAssetUri;
 
   const LoadAvatarMessage({
-    required this.assetVersionId,
-    required this.templateAssetUri,
+    required this.avatarCollectionId,
+    required this.metadataAssetUri,
     required this.tokenId,
     required this.tokenAssetUri
   });
 
   LoadAvatarMessage.fromJson(Map<String, dynamic> json)
-      : assetVersionId = json['assetVersionId'],
-        templateAssetUri = json['templateAssetUri'],
+      : avatarCollectionId = json['avatarCollectionId'],
+        metadataAssetUri = json['metadataAssetUri'],
         tokenId = json['tokenId'],
         tokenAssetUri = json['tokenAssetUri'];
 
   Map<String, dynamic> toJson() {
     return {
-      'assetVersionId': assetVersionId,
-      'templateAssetUri': templateAssetUri,
+      'avatarCollectionId': avatarCollectionId,
+      'metadataAssetUri': metadataAssetUri,
       'tokenId': tokenId,
       'tokenAssetUri': tokenAssetUri
     };
@@ -30,21 +30,21 @@ class LoadAvatarMessage {
 }
 
 class SelectAvatarMessage {
-  final num assetVersionId;
+  final num avatarCollectionId;
   final String tokenId;
 
   const SelectAvatarMessage({
-    required this.assetVersionId,
+    required this.avatarCollectionId,
     required this.tokenId,
   });
 
   SelectAvatarMessage.fromJson(Map<String, dynamic> json)
-      : assetVersionId = json['assetVersionId'],
+      : avatarCollectionId = json['avatarCollectionId'],
         tokenId = json['tokenId'];
 
   Map<String, dynamic> toJson() {
     return {
-      'assetVersionId': assetVersionId,
+      'avatarCollectionId': avatarCollectionId,
       'tokenId': tokenId,
     };
   }

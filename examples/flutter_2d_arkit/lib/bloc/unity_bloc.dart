@@ -30,8 +30,8 @@ class UnityBloc extends Bloc<UnityEvent, UnityState> {
       _postMessage(
         UnityEventTopic.LoadAvatar,
         LoadAvatarMessage(
-          assetVersionId: 0,
-          templateAssetUri:
+          avatarCollectionId: 0,
+          metadataAssetUri:
               "https://10k-asset.s3.ap-southeast-1.amazonaws.com/mock/collection_mas_metadata.zip",
           tokenId: e.toString(),
           tokenAssetUri:
@@ -47,8 +47,8 @@ class UnityBloc extends Bloc<UnityEvent, UnityState> {
     _postMessage(
       topic,
       LoadAvatarMessage(
-          assetVersionId: event.assetCollectionId,
-          templateAssetUri: event.metadataAssetUri,
+          avatarCollectionId: event.avatarCollectionId,
+          metadataAssetUri: event.metadataAssetUri,
           tokenId: event.tokenId,
           tokenAssetUri: event.tokenAssetUri),
     );
@@ -60,7 +60,7 @@ class UnityBloc extends Bloc<UnityEvent, UnityState> {
     _postMessage(
       topic,
       SelectAvatarMessage(
-        assetVersionId: event.assetCollectionId,
+        avatarCollectionId: event.avatarCollectionId,
         tokenId: event.tokenId,
       ),
     );

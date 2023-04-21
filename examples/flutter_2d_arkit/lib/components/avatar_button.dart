@@ -27,7 +27,7 @@ class _AvatarButtonState extends State<AvatarButton> {
     return GestureDetector(
       onTap: () {
         context.read<UnityBloc>().add(UnitySelectAvatarEvent(
-              assetCollectionId: 0,
+              avatarCollectionId: 0,
               tokenId: widget.tokenID,
             ));
       },
