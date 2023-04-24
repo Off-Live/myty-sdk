@@ -116,6 +116,7 @@ namespace Editor
                     ChooseMotionCaptureSolution();
                     Export();
                     Close();
+                    GUIUtility.ExitGUI();
                 }
 
                 if (GUILayout.Button("Create Scene"))
@@ -123,6 +124,7 @@ namespace Editor
                     CreateScene();
                     ChooseMotionCaptureSolution();
                     Close();
+                    GUIUtility.ExitGUI();
                 }
             }
 
