@@ -1,5 +1,5 @@
 using AR;
-using Avatar;
+using Avatar.Interface;
 using MYTYKit.MotionTemplates;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -47,7 +47,7 @@ namespace Editor
                 
                 var avatarManager = Object.FindObjectOfType<AvatarManager>();
                 var messageHandler = Object.FindObjectOfType<MessageHandler.MessageHandler>();
-                
+
                 messageHandler.motionSource = motionSource;
                 avatarManager.motionSource = motionSource;
                 

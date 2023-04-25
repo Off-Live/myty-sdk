@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c397e6fe325642218a19168fb59c89b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarLoader: {fileID: 8313575349074347453}
-  avatar3DLoader: {fileID: 0}
-  avatarManager: {fileID: 8313575350663430144}
+  m_avatarDownloader: {fileID: 1615454477589715396}
+  m_avatarManager: {fileID: 7563232243557721413}
   motionSource: {fileID: 0}
 --- !u!1 &8313575349074347455
 GameObject:
@@ -57,9 +56,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8313575349074347452}
-  - component: {fileID: 8313575349074347453}
+  - component: {fileID: 1615454477589715396}
   m_Layer: 0
-  m_Name: AvatarLoader
+  m_Name: AvatarDownloader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +79,7 @@ Transform:
   m_Father: {fileID: 8313575350530292168}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8313575349074347453
+--- !u!114 &1615454477589715396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,10 +88,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8313575349074347455}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02204f6fd5f740ce8936bbce29dd407, type: 3}
+  m_Script: {fileID: 11500000, guid: 37cc105622af4b4dabfceb5c7c64eaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_avatarManager: {fileID: 8313575350663430144}
+  m_avatarManager: {fileID: 7563232243557721413}
 --- !u!1 &8313575349585509686
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +382,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8313575350663430147}
-  - component: {fileID: 8313575350663430144}
+  - component: {fileID: 7563232243557721413}
   m_Layer: 0
   m_Name: AvatarManager
   m_TagString: Untagged
@@ -406,7 +405,7 @@ Transform:
   m_Father: {fileID: 8313575350530292168}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8313575350663430144
+--- !u!114 &7563232243557721413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,14 +414,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8313575350663430146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092253a6a0514d998d991e38e47f253a, type: 3}
+  m_Script: {fileID: 11500000, guid: adcbe84d31424bdba0050c5521965ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  motionSource: {fileID: 0}
   m_fvAvatarMaterial: {fileID: 2100000, guid: 99e8bff26f8ca4f31a974ee30835c3d5, type: 2}
   m_arFaceMaterial: {fileID: 2100000, guid: e9ee15d0386b242d5a0cc2f9a0384a1d, type: 2}
   m_avatarRenderer: {fileID: 8313575349585509685}
   m_arFacePlane: {fileID: 8313575350101809251}
-  motionSource: {fileID: 0}
+  avatarLoadedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8313575350707273699
 GameObject:
   m_ObjectHideFlags: 0
