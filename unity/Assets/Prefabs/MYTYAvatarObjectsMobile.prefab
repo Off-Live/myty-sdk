@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581143391941965104}
-  - component: {fileID: 581143391941965105}
+  - component: {fileID: 3942447663419482712}
   m_Layer: 0
-  m_Name: AvatarLoader
+  m_Name: AvatarDownloader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 581143393993509188}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &581143391941965105
+--- !u!114 &3942447663419482712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 581143391941965107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f02204f6fd5f740ce8936bbce29dd407, type: 3}
+  m_Script: {fileID: 11500000, guid: 37cc105622af4b4dabfceb5c7c64eaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_avatarManager: {fileID: 581143393598288012}
+  m_avatarManager: {fileID: 3141830540326533986}
 --- !u!1 &581143392419634518
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,9 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c397e6fe325642218a19168fb59c89b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  avatarLoader: {fileID: 581143391941965105}
-  avatar3DLoader: {fileID: 0}
-  avatarManager: {fileID: 581143393598288012}
+  m_avatarDownloader: {fileID: 3942447663419482712}
+  m_avatarManager: {fileID: 3141830540326533986}
   motionSource: {fileID: 0}
 --- !u!1 &581143392511954362
 GameObject:
@@ -350,7 +349,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581143393598288015}
-  - component: {fileID: 581143393598288012}
+  - component: {fileID: 3141830540326533986}
   m_Layer: 0
   m_Name: AvatarManager
   m_TagString: Untagged
@@ -373,7 +372,7 @@ Transform:
   m_Father: {fileID: 581143393993509188}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &581143393598288012
+--- !u!114 &3141830540326533986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,29 +381,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 581143393598288014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092253a6a0514d998d991e38e47f253a, type: 3}
+  m_Script: {fileID: 11500000, guid: adcbe84d31424bdba0050c5521965ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fvAvatarMaterial: {fileID: 2100000, guid: 99e8bff26f8ca4f31a974ee30835c3d5, type: 2}
-  m_arFaceMaterial: {fileID: 2100000, guid: e9ee15d0386b242d5a0cc2f9a0384a1d, type: 2}
-  m_avatarRenderer: {fileID: 581143392511954361}
-  m_arFacePlane: {fileID: 581143393061726447}
   motionSource: {fileID: 0}
+  m_fvAvatarMaterial: {fileID: 0}
+  m_arFaceMaterial: {fileID: 0}
+  m_avatarRenderer: {fileID: 0}
+  m_arFacePlane: {fileID: 0}
   avatarLoadedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8885428814140419363}
-        m_TargetAssemblyTypeName: MessageHandler.FlutterMessageSender, MYTYSDK
-        m_MethodName: AvatarLoaded
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &581143393801391983
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Avatar;
+using Avatar.Impl;
+using Avatar.Interface;
 using Data;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -8,47 +10,42 @@ namespace MessageHandler
 {
     public class MessageHandler : MonoBehaviour
     {
-        public AvatarLoader avatarLoader;
-        public Avatar3DLoader avatar3DLoader;
-        public AvatarManager avatarManager;
+        [SerializeField]
+        AvatarDownloader m_avatarDownloader;
+        [SerializeField]
+        AvatarManager m_avatarManager;
         public MotionSource.MotionSource motionSource;
 
         void Start()
         {
-            avatarLoader = FindObjectOfType<AvatarLoader>();
-            avatarManager = FindObjectOfType<AvatarManager>();
+            m_avatarDownloader = FindObjectOfType<AvatarDownloader>();
+            m_avatarManager = FindObjectOfType<AvatarManager>();
             motionSource = FindObjectOfType<MotionSource.MotionSource>();
-            avatar3DLoader = FindObjectOfType<Avatar3DLoader>();
         }
-        
+
         public void LoadAvatar(string message)
         {
             var obj = JsonConvert.DeserializeObject<LoadAvatarMessage>(message);
-            avatarLoader.LoadAvatar(
+            m_avatarDownloader.DownloadAvatar(
                 obj!.avatarCollectionId,
                 obj!.metadataAssetUri,
                 obj!.tokenId,
-                obj!.tokenAssetUri
+                obj!.tokenAssetUri  
             );
         }
 
         public void SelectAvatar(string message)
         {
             var obj = JsonConvert.DeserializeObject<SelectAvatarMessage>(message);
-            avatarManager.SelectAvatar(
+            m_avatarManager.SelectAvatar(
                 obj!.avatarCollectionId,
                 obj!.tokenId
             );
         }
 
-        public void SetARMode(string flag)
+        public void SetARMode(string _)
         {
-            avatarManager.SetARMode(flag == "true");
-        }
-
-        public void Load3DAvatar()
-        {
-            avatar3DLoader.Load3DAvatarTest();
+            m_avatarManager.SwitchMode();
         }
 
         public void ProcessCapturedResult(string message)

@@ -14,19 +14,15 @@ namespace Editor
             var root = new VisualElement();
             
             var avatarLoader = new PropertyField();
-            avatarLoader.BindProperty(serializedObject.FindProperty("avatarLoader"));
-            
-            var avatar3DLoader = new PropertyField();
-            avatar3DLoader.BindProperty(serializedObject.FindProperty("avatar3DLoader"));
-            
+            avatarLoader.BindProperty(serializedObject.FindProperty("m_avatarDownloader"));
+
             var avatarManager = new PropertyField();
-            avatarManager.BindProperty(serializedObject.FindProperty("avatarManager"));
+            avatarManager.BindProperty(serializedObject.FindProperty("m_avatarManager"));
             
             var motionSource = new PropertyField();
             motionSource.BindProperty(serializedObject.FindProperty("motionSource"));
             
             root.Add(avatarLoader);
-            root.Add(avatar3DLoader);
             root.Add(avatarManager);
             root.Add(motionSource);
 
@@ -108,17 +104,7 @@ namespace Editor
             {
                 (target as MessageHandler.MessageHandler)!.SetARMode(arModeField.value);
             };
-            
-            var load3DAvatar = new Button
-            {
-                text = "Load 3D Avatar"
-            };
-            
-            load3DAvatar.clicked += () =>
-            {
-                (target as MessageHandler.MessageHandler)!.Load3DAvatar();
-            };
-            
+
             var motionCapturedInput = new TextField
             {
                 label = "MotionCaptured"
@@ -146,9 +132,7 @@ namespace Editor
             
             root.Add(arModeField);
             root.Add(applyARMode);
-            
-            root.Add(load3DAvatar);
-            
+
             root.Add(motionCapturedInput);
             root.Add(captureMotion);
             
