@@ -32,6 +32,7 @@ namespace Editor
                 if (m_request.Status == StatusCode.Success)
                 {
                     Debug.Log("3D Installation Done!");
+                    PackageManagerWatcher.is3DInstalled = true;
                     EditorApplication.update -= Progress;
                     EditorUtility.ClearProgressBar();
                 }
