@@ -14,7 +14,7 @@ public class MYTYSetupScene
 
     public static void Create3DScene()
     {
-        string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTY3DAvatarObjects.prefab";
+        string prefabPath = "Packages/com.offlive.myty.myty-sdk.3d/Prefabs/MYTY3DAvatarObjects.prefab";
 
         CreateScene(prefabPath, "MYTY3D.unity");
     }

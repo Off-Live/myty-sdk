@@ -89,20 +89,15 @@ namespace Editor
                 var message = JsonConvert.SerializeObject(obj);
                 (target as MessageHandler.MessageHandler)!.SelectAvatar(message);
             };
-            
-            var arModeField = new TextField
+
+            var switchModeButton = new Button
             {
-                label = "AR Mode"
+                text = "Switch Mode"
             };
             
-            var applyARMode = new Button
+            switchModeButton.clicked += () =>
             {
-                text = "Apply AR Mode"
-            };
-            
-            applyARMode.clicked += () =>
-            {
-                (target as MessageHandler.MessageHandler)!.SetARMode(arModeField.value);
+                (target as MessageHandler.MessageHandler)!.SwitchMode("");
             };
 
             var motionCapturedInput = new TextField
@@ -129,9 +124,8 @@ namespace Editor
             root.Add(avatarCollectionIdField2);
             root.Add(tokenIdField);
             root.Add(selectAvatar);
-            
-            root.Add(arModeField);
-            root.Add(applyARMode);
+
+            root.Add(switchModeButton);
 
             root.Add(motionCapturedInput);
             root.Add(captureMotion);

@@ -43,7 +43,7 @@ namespace MessageHandler
             );
         }
 
-        public void SetARMode(string _)
+        public void SwitchMode(string _)
         {
             m_avatarManager.SwitchMode();
         }

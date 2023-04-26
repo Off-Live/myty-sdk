@@ -52,10 +52,12 @@ namespace Editor
                 avatarManager.motionSource = motionSource;
                 
                 var motionTemplateMapper = Object.FindObjectOfType<MotionTemplateMapper>();
-                
                 var arFacePlane = Object.FindObjectOfType<ARFacePlane>();
-                
-                arFacePlane.motionTemplateMapper = motionTemplateMapper;
+
+                if (motionTemplateMapper != null && arFacePlane != null)
+                {
+                    arFacePlane.motionTemplateMapper = motionTemplateMapper;
+                }
 
                 Selection.activeGameObject = instance;
                 
