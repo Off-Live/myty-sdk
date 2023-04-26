@@ -1,11 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 namespace Editor
@@ -182,22 +175,6 @@ namespace Editor
                 case Platform.Mobile:
                     MYTYExportIOS.ExportIOS();
                     break;
-            }
-        }
-
-        private static void CheckPackage()
-        {
-            if (m_listRequest.IsCompleted)
-            {
-                if (m_listRequest.Status == StatusCode.Success)
-                {
-                    Debug.Log("Package list fetched");
-                }
-                else
-                {
-                    Debug.Log(m_listRequest.Error.message);
-                }
-                EditorApplication.update -= CheckPackage;
             }
         }
     }
