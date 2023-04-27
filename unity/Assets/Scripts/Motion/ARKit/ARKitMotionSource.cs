@@ -7,7 +7,7 @@ namespace MotionSource.ARKit
 {
     public class ARKitMotionSource : Motion.MotionSource.MotionSource
     {
-        public override void ProcessCapturedResult(string result)
+        protected override void ConvertCapturedResult(string result)
         {
             var obj = JsonConvert.DeserializeObject<ARKitData>(result);
             

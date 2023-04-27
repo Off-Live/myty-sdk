@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Motion.Data;
 
 namespace Motion.MotionTemplateBridge
 {
@@ -9,6 +10,14 @@ namespace Motion.MotionTemplateBridge
         public void SetValue(string name, float value)
         {
             parameterItems[name] = value;
+        }
+
+        public override BridgeItem CreateItem()
+        {
+            return new ParametricBridgeItem
+            {
+                parametricItems = parameterItems
+            };
         }
     }
 }

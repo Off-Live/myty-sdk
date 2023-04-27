@@ -1,3 +1,4 @@
+using Motion.Data;
 using UnityEngine;
 
 namespace Motion.MotionTemplateBridge
@@ -23,6 +24,15 @@ namespace Motion.MotionTemplateBridge
         {
             rawPoints[index] = new Vector3(-point.x, -point.y, point.z);
             visibilities[index] = visibility;
+        }
+
+        public override BridgeItem CreateItem()
+        {
+            return new PointsBridgeItem
+            {
+                rawPoints = rawPoints,
+                visibilities = visibilities
+            };
         }
     }
 }

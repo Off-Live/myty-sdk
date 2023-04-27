@@ -16,13 +16,13 @@ namespace Editor
             var root = new VisualElement();
             var categoryField = new PropertyField();
             var templateBridgeField = new PropertyField();
-            var motionTemplateField = new PropertyField();
+            var motionProcessorField = new PropertyField();
             var categoryButton = new Button();
             var bridgeButton = new Button();
         
             categoryField.BindProperty(serializedObject.FindProperty("motionCategories"));
             templateBridgeField.BindProperty(serializedObject.FindProperty("templateBridgeMap"));
-            motionTemplateField.BindProperty(serializedObject.FindProperty("motionTemplateMapperList"));
+            motionProcessorField.BindProperty(serializedObject.FindProperty("motionProcessor"));
             categoryButton.text = "Autobuild Category";
             categoryButton.clicked += () =>
             {
@@ -60,7 +60,7 @@ namespace Editor
         
             root.Add(categoryField);
             root.Add(templateBridgeField);
-            root.Add(motionTemplateField);
+            root.Add(motionProcessorField);
             root.Add(categoryButton);
             root.Add(bridgeButton);
             return root;
@@ -69,7 +69,7 @@ namespace Editor
         void SetupBridge(Motion.MotionSource.MotionSource source)
         {   
             var bridgeProp = serializedObject.FindProperty("templateBridgeMap");
-            var mt = source.motionTemplateMapperList;
+            var mt = source.motionProcessor.motionTemplateMapperList;
 
             var names = mt[0].GetNames();
             bridgeProp.arraySize = names.Count;
@@ -78,7 +78,6 @@ namespace Editor
                 bridgeProp.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = names[i];
             }
             serializedObject.ApplyModifiedProperties();
-
         }
     }
 }

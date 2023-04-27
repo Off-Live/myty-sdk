@@ -1,3 +1,4 @@
+using Motion.Data;
 using UnityEngine;
 
 namespace Motion.MotionTemplateBridge
@@ -12,5 +13,7 @@ namespace Motion.MotionTemplateBridge
 
         protected abstract void UpdateValue();
         protected abstract void Process();
+        
+        public abstract BridgeItem CreateItem();
     }
 }

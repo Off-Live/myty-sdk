@@ -44,8 +44,7 @@ namespace Avatar.Impl
                 masImporter.templateRoot = avatar.transform;
                 masImporter.LoadCollectionMetadata(metadata);
             
-                motionSource.motionTemplateMapperList.Add(masImporter.motionTemplateMapper);
-                motionSource.UpdateMotionAndTemplates();
+                motionProcessor.AddMotionTemplateMapper(masImporter.motionTemplateMapper);
 
                 var avatarRoot = new GameObject("AvatarRoot")
                 {

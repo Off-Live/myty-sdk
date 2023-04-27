@@ -1,25 +1,28 @@
 using System.Collections.Generic;
 using System.Linq;
-using MotionSource._3rdParty.MeFaMo;
-using MotionSource.Mediapipe.RiggingModels;
+using Motion.Data;
 using MYTYKit.MotionTemplates;
+using Newtonsoft.Json;
 using UnityEngine;
 
-namespace MotionSource.MotionProcessor
+namespace Motion.MotionProcessor
 {
     public class MotionProcessor : MonoBehaviour
     {
-        [SerializeField]
-        Motion.MotionSource.MotionSource m_motionSource;
-        
-        MeFaMoSolver m_solver = new();
-        Vector3[] m_solverBuffer;
-        
-        List<MotionTemplateMapper> m_motionTemplateMapperList;
+        public List<MotionTemplateMapper> motionTemplateMapperList = new();
 
+        public void ProcessCapturedResult(string result)
+        {
+            JsonConvert.DeserializeObject<List<BridgeItemWithName>>(result)
+                ?.ForEach(item => UpdateTemplateByName(item.name, item.result));
+        }
+        public void AddMotionTemplateMapper(MotionTemplateMapper motionTemplateMapper)
+        {
+            motionTemplateMapperList.Add(motionTemplateMapper);
+        }
         public void UpdateTemplateByName(string templateName, string result)
         {
-            foreach (var motionTemplateMapper in m_motionTemplateMapperList)
+            foreach (var motionTemplateMapper in motionTemplateMapperList)
             {
                 var template = motionTemplateMapper.GetTemplate(templateName);
                 if(template == null) continue;
@@ -27,80 +30,68 @@ namespace MotionSource.MotionProcessor
                 switch (template)
                 {
                     case PointsTemplate pointsTemplate:
-                        pointsTemplate.points = new Vector3[1];
-                        pointsTemplate.visibilities = new float[1];
+                        var pointsItem = JsonConvert.DeserializeObject<PointsBridgeItem>(result);
+                        if (pointsItem != null)
+                        {
+                            UpdatePointsTemplate(pointsTemplate, pointsItem);    
+                        }
                         break;
                     case AnchorTemplate anchorTemplate:
-                        anchorTemplate.up = new Vector3();
-                        anchorTemplate.scale = Vector3.one;
-                        anchorTemplate.position = Vector3.one;
-                        anchorTemplate.lookAt = Vector3.one;
+                        var anchorItem = JsonConvert.DeserializeObject<AnchorBridgeItem>(result);
+                        if (anchorItem != null)
+                        {
+                            UpdateAnchorTemplate(anchorTemplate, anchorItem);
+                        }
                         break;
                     case ParametricTemplate parametricTemplate:
-                        parametricTemplate.SetValue("key", 0.0f);
+                        var parametricItem = JsonConvert.DeserializeObject<ParametricBridgeItem>(result);
+                        if (parametricItem != null)
+                        {
+                            UpdateParametricTemplate(parametricTemplate, parametricItem);
+                        }
                         break;
                 }
                 template.NotifyUpdate();
             }
         }
-        public void ProcessFaceMediapipe(List<Vector3> faceData, int width, int height)
+
+        private void UpdatePointsTemplate(PointsTemplate template, PointsBridgeItem item)
         {
-            var faceModels = m_motionSource.GetBridgesInCategory("FaceLandmark");
-
-            foreach (var baseModel in faceModels.Select(model => model as MPBaseModel))
+            var rawPoints = item.rawPoints;
+            var visibilities = item.visibilities;
+            if (template.points == null || template.points.Length != rawPoints.Length)
             {
-                ProcessNormalizedHolistic(baseModel, faceData);
+                template.points = new Vector3[rawPoints.Length];
             }
 
-            if (m_solverBuffer == null || m_solverBuffer.Length != faceData.Count)
+            if (template.visibilities == null || template.visibilities.Length != visibilities.Length)
             {
-                m_solverBuffer = new Vector3[faceData.Count];
-            }
-
-            foreach (var (elem, index) in faceData.Select((item, idx) => (item, idx)))
-            {
-                m_solverBuffer[index] = elem;
+                template.visibilities = new float[visibilities.Length];
             }
             
-            m_solver.Solve(m_solverBuffer, width, height);
+            Debug.Assert(template.points.Length == template.visibilities.Length);
             
-            var solverModels = m_motionSource.GetBridgesInCategory("FaceSolver");
-
-            foreach (var model in solverModels)
+            Enumerable.Range(0, template.points.Length).ToList().ForEach(idx =>
             {
-                var solverModel = model as MPSolverModel;
-                if (solverModel == null) continue;
-                solverModel.SetSolver(m_solver);
-                solverModel.Flush();
-            }
+                template.points[idx] = rawPoints[idx];
+                template.visibilities[idx] = visibilities[idx];
+            });
         }
 
-        public void ProcessPoseMediapipe(List<Vector3> pose)
+        private void UpdateAnchorTemplate(AnchorTemplate template, AnchorBridgeItem item)
         {
-            var poseModels = m_motionSource.GetBridgesInCategory("PoseLandmark");
-            foreach (var model in poseModels.Select(model => model as MPBaseModel))
-            {
-                ProcessNormalizedHolistic(model, pose);
-            }
+            template.up = item.up;
+            template.lookAt = item.lookAt;
+            if(item.position != null) template.position = (Vector3)item.position;
+            if(item.scale != null) template.scale = (Vector3)item.scale;
         }
-        
-        private void ProcessNormalizedHolistic(MPBaseModel model, List<Vector3> landmarkList)
+
+        private void UpdateParametricTemplate(ParametricTemplate template, ParametricBridgeItem item)
         {
-            if (model == null || landmarkList == null) return;
-
-            if (model.GetNumPoints() != landmarkList.Count)
+            foreach (var (key, value) in item.parametricItems)
             {
-                model.Alloc(landmarkList.Count);
+                template.SetValue(key, value);
             }
-
-            foreach (var (elem, index) in landmarkList.Select((item, idx) => (item, idx)))
-            {
-                model.SetPoint(index, elem, 1.0f);
-            }
-        
-            model.Flush();
         }
-        
-        // public void ProcessFaceM4F()
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using MotionSource;
-using MYTYKit.MotionTemplates;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Motion.MotionSource
@@ -24,13 +24,8 @@ namespace Motion.MotionSource
     {
         [SerializeField] List<MotionCategory> motionCategories = new();
         [SerializeField] List<MTBridgeItem> templateBridgeMap = new();
-
-        public List<MotionTemplateMapper> motionTemplateMapperList = new();
-
-        void Start()
-        {
-            UpdateMotionAndTemplates();
-        }
+        
+        public MotionProcessor.MotionProcessor motionProcessor;
 
         public List<string> GetCategoryList()
         {
@@ -90,30 +85,20 @@ namespace Motion.MotionSource
             motionCategories.Clear();
         }
 
-        public void UpdateMotionAndTemplates()
+        public void Process(string result)
         {
-            // Todo : Remove this
-            
-            // foreach (var brigdeItem in templateBridgeMap)
-            // {
-            //     brigdeItem.templateBridge.ClearMotionTemplate();
-            // }
-            //
-            // foreach (var brigdeItem in templateBridgeMap)
-            // {
-            //     foreach (var motionTemplateMapper in motionTemplateMapperList)
-            //     {
-            //         var template = motionTemplateMapper.GetTemplate(brigdeItem.name);
-            //         if (template == null) continue;
-            //
-            //         var bridge = brigdeItem.templateBridge;
-            //         if (bridge == null) continue;
-            //
-            //         bridge.AddMotionTemplate(template);
-            //     }
-            // }
+            ConvertCapturedResult(result);
+            templateBridgeMap.ForEach(item => Debug.Log($"{item.name} {item.templateBridge}"));
+            var itemList = templateBridgeMap.Select(item =>
+                item.templateBridge.CreateItem()
+            ).ToList();
+            Debug.Log(JsonConvert.SerializeObject(itemList, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
+            // motionProcessor.ProcessCapturedResult(JsonConvert.SerializeObject(itemList));
         }
         
-        public abstract void ProcessCapturedResult(string result);
+        protected abstract void ConvertCapturedResult(string result);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using Motion.MotionTemplateBridge;
 using MotionSource._3rdParty.MeFaMo;
 using MotionSource.Mediapipe.RiggingModels;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ namespace MotionSource.Mediapipe
     {
         MeFaMoSolver m_solver = new();
         Vector3[] m_solverBuffer;
-        public override void ProcessCapturedResult(string result)
+        protected override void ConvertCapturedResult(string result)
         {
             var obj = JsonConvert.DeserializeObject<MediapipeData>(result);
             
@@ -20,7 +21,7 @@ namespace MotionSource.Mediapipe
             
             var faceBridges = GetBridgesInCategory("FaceLandmark");
 
-            foreach (var baseModel in faceBridges.Select(model => model as MPBaseModel))
+            foreach (var baseModel in faceBridges.Select(model => model as PointsBridge))
             {
                 ProcessNormalizedHolistic(baseModel, faceData);
             }
@@ -52,13 +53,13 @@ namespace MotionSource.Mediapipe
             var pose = obj!.pose;
             
             var poseBridges = GetBridgesInCategory("PoseLandmark");
-            foreach (var model in poseBridges.Select(model => model as MPBaseModel))
+            foreach (var model in poseBridges.Select(model => model as PointsBridge))
             {
                 ProcessNormalizedHolistic(model, pose);
             }
         }
 
-        private void ProcessNormalizedHolistic(MPBaseModel model, List<Vector3> landmarkList)
+        private void ProcessNormalizedHolistic(PointsBridge model, List<Vector3> landmarkList)
         {
             if (model == null || landmarkList == null) return;
 

@@ -50,7 +50,7 @@ namespace MessageHandler
 
         public void ProcessCapturedResult(string message)
         {
-            motionSource.ProcessCapturedResult(message);
+            motionSource.Process(message);
         }
     }
 }
