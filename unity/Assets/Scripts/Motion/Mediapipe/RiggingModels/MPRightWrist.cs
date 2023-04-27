@@ -4,8 +4,6 @@ namespace MotionSource.Mediapipe.RiggingModels
 {
     public class MPRightWrist : MPJointModel
     {
-
-
         protected override void Process()
         {
             if (rawPoints == null) return;

@@ -1,3 +1,4 @@
+using Motion.MotionSource;
 using MotionSource;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -7,7 +8,7 @@ using UnityEngine.UIElements;
 namespace Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(MotionSource.MotionSource), true)]
+    [CustomEditor(typeof(Motion.MotionSource.MotionSource), true)]
     public class MotionSourceEditor:UnityEditor.Editor
     {
         public override VisualElement CreateInspectorGUI()
@@ -25,7 +26,7 @@ namespace Editor
             categoryButton.text = "Autobuild Category";
             categoryButton.clicked += () =>
             {
-                var motionSource = target as MotionSource.MotionSource;
+                var motionSource = target as Motion.MotionSource.MotionSource;
                 motionSource.SetupMotionCategory();
                 if (!Application.isEditor) return;
             
@@ -53,7 +54,7 @@ namespace Editor
             bridgeButton.text = "Autofill bridge name";
             bridgeButton.clicked += () =>
             {
-                var motionSource = target as MotionSource.MotionSource;
+                var motionSource = target as Motion.MotionSource.MotionSource;
                 SetupBridge(motionSource);
             };
         
@@ -65,7 +66,7 @@ namespace Editor
             return root;
         }
     
-        void SetupBridge(MotionSource.MotionSource source)
+        void SetupBridge(Motion.MotionSource.MotionSource source)
         {   
             var bridgeProp = serializedObject.FindProperty("templateBridgeMap");
             var mt = source.motionTemplateMapperList;

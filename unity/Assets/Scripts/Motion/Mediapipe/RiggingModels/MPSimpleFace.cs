@@ -1,5 +1,4 @@
 using MotionSource._3rdParty.MeFaMo;
-using MYTYKit.MotionTemplates;
 using UnityEngine;
 
 namespace MotionSource.Mediapipe.RiggingModels
@@ -52,28 +51,18 @@ namespace MotionSource.Mediapipe.RiggingModels
             m_solver = null;
         }
 
-        protected override void UpdateTemplate()
+        protected override void UpdateValue()
         {
-            if (templateList.Count == 0) return;
-
-            foreach (var motionTemplate in templateList)
-            {
-                var template = (ParametricTemplate)motionTemplate;
-               
-                template.SetValue("leftEye",leftEye);
-                template.SetValue("rightEye",rightEye);
-                template.SetValue("leftEyeBrow", leftEyeBrow);
-                template.SetValue("rightEyeBrow", rightEyeBrow);
-                template.SetValue("leftPupilX", leftPupil.x);
-                template.SetValue("leftPupilY", leftPupil.y);
-                template.SetValue("rightPupilX", rightPupil.x);
-                template.SetValue("rightPupilY", rightPupil.y);
-                template.SetValue("mouthX", mouthX);
-                template.SetValue("mouthY", mouthY);
-                template.NotifyUpdate();
-                
-            }
-            
+            SetValue("leftEye",leftEye);
+            SetValue("rightEye",rightEye);
+            SetValue("leftEyeBrow", leftEyeBrow);
+            SetValue("rightEyeBrow", rightEyeBrow);
+            SetValue("leftPupilX", leftPupil.x);
+            SetValue("leftPupilY", leftPupil.y);
+            SetValue("rightPupilX", rightPupil.x);
+            SetValue("rightPupilY", rightPupil.y);
+            SetValue("mouthX", mouthX);
+            SetValue("mouthY", mouthY);
         }
     }
 }

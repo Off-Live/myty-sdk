@@ -1,3 +1,4 @@
+using Motion.MotionTemplateBridge;
 using UnityEngine;
 
 namespace MotionSource.Mediapipe.RiggingModels

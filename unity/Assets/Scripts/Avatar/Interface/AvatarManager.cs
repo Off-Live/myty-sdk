@@ -4,7 +4,7 @@ namespace Avatar.Interface
 {
     public abstract class AvatarManager : MonoBehaviour
     {
-        public MotionSource.MotionSource motionSource;
+        public Motion.MotionSource.MotionSource motionSource;
         public abstract void LoadAvatar(long avatarCollectionId, string tokenId, byte[] metadata, byte[] tokenAsset);
         public abstract void SelectAvatar(long avatarCollectionId, string tokenId);
         public abstract void SwitchMode();

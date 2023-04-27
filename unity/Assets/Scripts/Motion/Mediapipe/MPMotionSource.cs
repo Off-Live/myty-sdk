@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace MotionSource.Mediapipe
 {
-    public class MPMotionSource : MotionSource
+    public class MPMotionSource : Motion.MotionSource.MotionSource
     {
         MeFaMoSolver m_solver = new();
         Vector3[] m_solverBuffer;

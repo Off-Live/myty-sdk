@@ -43,7 +43,7 @@ namespace Editor
                 
                 SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
                 
-                var motionSource = Object.FindObjectOfType<MotionSource.MotionSource>();
+                var motionSource = Object.FindObjectOfType<Motion.MotionSource.MotionSource>();
                 
                 var avatarManager = Object.FindObjectOfType<AvatarManager>();
                 var messageHandler = Object.FindObjectOfType<MessageHandler.MessageHandler>();

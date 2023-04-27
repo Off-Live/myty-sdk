@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
+using MotionSource;
 using MYTYKit.MotionTemplates;
 using UnityEngine;
 
-namespace MotionSource
+namespace Motion.MotionSource
 {
     [Serializable]
     public class MotionCategory
     {
         public string name;
-        public List<MotionTemplateBridge> bridges;
+        public List<MotionTemplateBridge.MotionTemplateBridge> bridges;
     }
 
     [Serializable]
     public class MTBridgeItem
     {
         public string name;
-        public MotionTemplateBridge templateBridge;
+        public MotionTemplateBridge.MotionTemplateBridge templateBridge;
     }
 
     public abstract class MotionSource : MonoBehaviour
@@ -42,7 +43,7 @@ namespace MotionSource
             return ret;
         }
 
-        public List<MotionTemplateBridge> GetBridgesInCategory(string categoryName)
+        public List<MotionTemplateBridge.MotionTemplateBridge> GetBridgesInCategory(string categoryName)
         {
             foreach (var category in motionCategories)
             {
@@ -55,7 +56,7 @@ namespace MotionSource
             return null;
         }
 
-        public void AddMotionTemplateBridge(string categoryName, MotionTemplateBridge bridge)
+        public void AddMotionTemplateBridge(string categoryName, MotionTemplateBridge.MotionTemplateBridge bridge)
         {
             var index = -1;
             for (int i = 0; i < motionCategories.Count; i++)
@@ -91,24 +92,26 @@ namespace MotionSource
 
         public void UpdateMotionAndTemplates()
         {
-            foreach (var brigdeItem in templateBridgeMap)
-            {
-                brigdeItem.templateBridge.ClearMotionTemplate();
-            }
-
-            foreach (var brigdeItem in templateBridgeMap)
-            {
-                foreach (var motionTemplateMapper in motionTemplateMapperList)
-                {
-                    var template = motionTemplateMapper.GetTemplate(brigdeItem.name);
-                    if (template == null) continue;
-
-                    var bridge = brigdeItem.templateBridge;
-                    if (bridge == null) continue;
-
-                    bridge.AddMotionTemplate(template);
-                }
-            }
+            // Todo : Remove this
+            
+            // foreach (var brigdeItem in templateBridgeMap)
+            // {
+            //     brigdeItem.templateBridge.ClearMotionTemplate();
+            // }
+            //
+            // foreach (var brigdeItem in templateBridgeMap)
+            // {
+            //     foreach (var motionTemplateMapper in motionTemplateMapperList)
+            //     {
+            //         var template = motionTemplateMapper.GetTemplate(brigdeItem.name);
+            //         if (template == null) continue;
+            //
+            //         var bridge = brigdeItem.templateBridge;
+            //         if (bridge == null) continue;
+            //
+            //         bridge.AddMotionTemplate(template);
+            //     }
+            // }
         }
         
         public abstract void ProcessCapturedResult(string result);

@@ -38,17 +38,9 @@ namespace MotionSource.Mediapipe.RiggingModels
 
         }
 
-        protected override void UpdateTemplate()
+        protected override void UpdateValue()
         {
-            if (templateList.Count == 0) return;
-
-            foreach (var motionTemplate in templateList)
-            {
-                var template = (ParametricTemplate)motionTemplate;
-                blendShape.ForEach(item => template.SetValue(item.name,item.value));
-                template.NotifyUpdate();
-            }
-            
+            blendShape.ForEach(item => SetValue(item.name,item.value));
         }
     }
 }

@@ -1,4 +1,6 @@
-namespace MotionSource
+using MotionSource;
+
+namespace Motion.MotionSource
 {
     public static class MotionSourceHelper
     {
@@ -14,7 +16,7 @@ namespace MotionSource
 
                 for (int j = 0; j < child.transform.childCount; j++)
                 {
-                    var bridge = child.transform.GetChild(j).GetComponent<MotionTemplateBridge>();
+                    var bridge = child.transform.GetChild(j).GetComponent<MotionTemplateBridge.MotionTemplateBridge>();
                     if (bridge == null) continue;
                     motionSource.AddMotionTemplateBridge(categoryName, bridge);
                 }

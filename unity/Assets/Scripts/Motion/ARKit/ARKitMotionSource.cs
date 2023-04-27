@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MotionSource.ARKit
 {
-    public class ARKitMotionSource : MotionSource
+    public class ARKitMotionSource : Motion.MotionSource.MotionSource
     {
         public override void ProcessCapturedResult(string result)
         {
