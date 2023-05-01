@@ -342,7 +342,7 @@ MonoBehaviour:
   - name: FaceLandmark
     bridges:
     - {fileID: 8365054402353406646}
-    - {fileID: 8365054401603473336}
+    - {fileID: 0}
   - name: FaceSolver
     bridges:
     - {fileID: 6702532631275809528}
@@ -395,15 +395,15 @@ MonoBehaviour:
     - {fileID: 8365054401557518942}
     - {fileID: 8365054402522354173}
     - {fileID: 8365054403096883833}
-    - {fileID: 8365054401591862701}
+    - {fileID: 0}
     - {fileID: 8365054401541164727}
   templateBridgeMap:
   - name: SimpleFaceParam
     templateBridge: {fileID: 6702532631275809528}
   - name: BodyPoints
-    templateBridge: {fileID: 8365054401591862701}
+    templateBridge: {fileID: 0}
   - name: FacePoints
-    templateBridge: {fileID: 8365054401603473336}
+    templateBridge: {fileID: 0}
   - name: RightLittleDistal
     templateBridge: {fileID: 8365054403116282373}
   - name: RightLittleIntermediate
@@ -725,7 +725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8365054401591862698}
-  - component: {fileID: 8365054401591862701}
+  - component: {fileID: 172600592065510359}
   m_Layer: 0
   m_Name: BodyPoints
   m_TagString: Untagged
@@ -748,7 +748,7 @@ Transform:
   m_Father: {fileID: 8365054402967453791}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8365054401591862701
+--- !u!114 &172600592065510359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8365054401591862699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86112e6a51c1438baa0e56ee6d7d2d17, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c1f678b932d4de8a95e4f3921b5df51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8365054401603473318
@@ -769,7 +769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8365054401603473337}
-  - component: {fileID: 8365054401603473336}
+  - component: {fileID: 4732229615574228924}
   m_Layer: 0
   m_Name: FacePoints
   m_TagString: Untagged
@@ -792,7 +792,7 @@ Transform:
   m_Father: {fileID: 8365054403455544498}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8365054401603473336
+--- !u!114 &4732229615574228924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -801,7 +801,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8365054401603473318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86112e6a51c1438baa0e56ee6d7d2d17, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c1f678b932d4de8a95e4f3921b5df51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8365054401652364486

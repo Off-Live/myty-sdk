@@ -1,5 +1,5 @@
 using AR;
-using Avatar.Interface;
+using Motion.MotionProcessor;
 using MYTYKit.MotionTemplates;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -12,7 +12,8 @@ namespace Editor
     {
         public static void AddMediapipe()
         {
-            var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
+            var prefabPath = "Assets/Prefabs/Mediapipe.prefab";
+            // var prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/Mediapipe.prefab";
             AddMotionSource(prefabPath);
         }
 
@@ -43,14 +44,14 @@ namespace Editor
                 
                 SceneManager.MoveGameObjectToScene(instance, SceneManager.GetActiveScene());
                 
-                var motionSource = Object.FindObjectOfType<MotionSource.MotionSource>();
-                
-                var avatarManager = Object.FindObjectOfType<AvatarManager>();
+                var motionSource = Object.FindObjectOfType<Motion.MotionSource.MotionSource>();
+                var motionProcessor = Object.FindObjectOfType<MotionProcessor>();
+
                 var messageHandler = Object.FindObjectOfType<MessageHandler.MessageHandler>();
 
                 messageHandler.motionSource = motionSource;
-                avatarManager.motionSource = motionSource;
-                
+                motionSource.motionProcessor = motionProcessor;
+
                 var motionTemplateMapper = Object.FindObjectOfType<MotionTemplateMapper>();
                 var arFacePlane = Object.FindObjectOfType<ARFacePlane>();
 

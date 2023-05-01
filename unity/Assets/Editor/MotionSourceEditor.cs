@@ -1,4 +1,4 @@
-using MotionSource;
+using Motion.MotionSource;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(MotionSource.MotionSource), true)]
+    [CustomEditor(typeof(Motion.MotionSource.MotionSource), true)]
     public class MotionSourceEditor:UnityEditor.Editor
     {
         public override VisualElement CreateInspectorGUI()
@@ -15,17 +15,17 @@ namespace Editor
             var root = new VisualElement();
             var categoryField = new PropertyField();
             var templateBridgeField = new PropertyField();
-            var motionTemplateField = new PropertyField();
+            var motionProcessorField = new PropertyField();
             var categoryButton = new Button();
             var bridgeButton = new Button();
         
             categoryField.BindProperty(serializedObject.FindProperty("motionCategories"));
             templateBridgeField.BindProperty(serializedObject.FindProperty("templateBridgeMap"));
-            motionTemplateField.BindProperty(serializedObject.FindProperty("motionTemplateMapperList"));
+            motionProcessorField.BindProperty(serializedObject.FindProperty("motionProcessor"));
             categoryButton.text = "Autobuild Category";
             categoryButton.clicked += () =>
             {
-                var motionSource = target as MotionSource.MotionSource;
+                var motionSource = target as Motion.MotionSource.MotionSource;
                 motionSource.SetupMotionCategory();
                 if (!Application.isEditor) return;
             
@@ -53,22 +53,22 @@ namespace Editor
             bridgeButton.text = "Autofill bridge name";
             bridgeButton.clicked += () =>
             {
-                var motionSource = target as MotionSource.MotionSource;
+                var motionSource = target as Motion.MotionSource.MotionSource;
                 SetupBridge(motionSource);
             };
         
             root.Add(categoryField);
             root.Add(templateBridgeField);
-            root.Add(motionTemplateField);
+            root.Add(motionProcessorField);
             root.Add(categoryButton);
             root.Add(bridgeButton);
             return root;
         }
     
-        void SetupBridge(MotionSource.MotionSource source)
+        void SetupBridge(Motion.MotionSource.MotionSource source)
         {   
             var bridgeProp = serializedObject.FindProperty("templateBridgeMap");
-            var mt = source.motionTemplateMapperList;
+            var mt = source.motionProcessor.motionTemplateMapperList;
 
             var names = mt[0].GetNames();
             bridgeProp.arraySize = names.Count;
@@ -77,7 +77,6 @@ namespace Editor
                 bridgeProp.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue = names[i];
             }
             serializedObject.ApplyModifiedProperties();
-
         }
     }
 }

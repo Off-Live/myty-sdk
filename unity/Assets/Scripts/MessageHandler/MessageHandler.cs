@@ -14,13 +14,13 @@ namespace MessageHandler
         AvatarDownloader m_avatarDownloader;
         [SerializeField]
         AvatarManager m_avatarManager;
-        public MotionSource.MotionSource motionSource;
+        public Motion.MotionSource.MotionSource motionSource;
 
         void Start()
         {
             m_avatarDownloader = FindObjectOfType<AvatarDownloader>();
             m_avatarManager = FindObjectOfType<AvatarManager>();
-            motionSource = FindObjectOfType<MotionSource.MotionSource>();
+            motionSource = FindObjectOfType<Motion.MotionSource.MotionSource>();
         }
 
         public void LoadAvatar(string message)
@@ -50,7 +50,7 @@ namespace MessageHandler
 
         public void ProcessCapturedResult(string message)
         {
-            motionSource.ProcessCapturedResult(message);
+            motionSource.Process(message);
         }
     }
 }

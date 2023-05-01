@@ -1,10 +1,11 @@
+using Motion.MotionProcessor;
 using UnityEngine;
 
 namespace Avatar.Interface
 {
     public abstract class AvatarManager : MonoBehaviour
     {
-        public MotionSource.MotionSource motionSource;
+        public MotionProcessor motionProcessor;
         public abstract void LoadAvatar(long avatarCollectionId, string tokenId, byte[] metadata, byte[] tokenAsset);
         public abstract void SelectAvatar(long avatarCollectionId, string tokenId);
         public abstract void SwitchMode();
