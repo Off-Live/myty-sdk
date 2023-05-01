@@ -1,9 +1,8 @@
 using Data;
 using Motion.MotionTemplateBridge;
-using MYTYKit.MotionTemplates;
 using UnityEngine;
 
-namespace MotionSource.ARKit.RiggingModels
+namespace Motion.ARKit.RiggingModels
 {
     public class ARKitSimpleFace : ParametricBridge
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels.LeftHand
+namespace Motion.Mediapipe.RiggingModels.LeftHand
 {
     public class MPLeftMiddleProximal : MPJointModel
     {

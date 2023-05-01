@@ -1,9 +1,8 @@
 using Data;
-using MotionSource.ARKit.RiggingModels;
+using Motion.ARKit.RiggingModels;
 using Newtonsoft.Json;
-using UnityEngine;
 
-namespace MotionSource.ARKit
+namespace Motion.ARKit
 {
     public class ARKitMotionSource : Motion.MotionSource.MotionSource
     {

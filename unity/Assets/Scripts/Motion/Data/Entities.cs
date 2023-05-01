@@ -6,10 +6,10 @@ namespace Motion.Data
     public class BridgeItemWithName
     {
         public string name;
-        public string result;
+        public BridgeItem result;
     }
 
-    public class BridgeItem
+    public abstract class BridgeItem
     {
     }
 
@@ -30,5 +30,11 @@ namespace Motion.Data
         public Vector3 lookAt;
         public Vector3? position;
         public Vector3? scale;
+    }
+
+    public class CapturedResultWithName
+    {
+        public string name;
+        public string result;
     }
 }

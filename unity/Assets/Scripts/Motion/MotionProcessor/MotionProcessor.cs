@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Motion.Data;
 using MYTYKit.MotionTemplates;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Motion.MotionProcessor
@@ -11,16 +10,11 @@ namespace Motion.MotionProcessor
     {
         public List<MotionTemplateMapper> motionTemplateMapperList = new();
 
-        public void ProcessCapturedResult(string result)
-        {
-            JsonConvert.DeserializeObject<List<BridgeItemWithName>>(result)
-                ?.ForEach(item => UpdateTemplateByName(item.name, item.result));
-        }
         public void AddMotionTemplateMapper(MotionTemplateMapper motionTemplateMapper)
         {
             motionTemplateMapperList.Add(motionTemplateMapper);
         }
-        public void UpdateTemplateByName(string templateName, string result)
+        public void UpdateTemplateByName(string templateName, BridgeItem result)
         {
             foreach (var motionTemplateMapper in motionTemplateMapperList)
             {
@@ -30,21 +24,21 @@ namespace Motion.MotionProcessor
                 switch (template)
                 {
                     case PointsTemplate pointsTemplate:
-                        var pointsItem = JsonConvert.DeserializeObject<PointsBridgeItem>(result);
+                        var pointsItem = (PointsBridgeItem)result;
                         if (pointsItem != null)
                         {
-                            UpdatePointsTemplate(pointsTemplate, pointsItem);    
+                            UpdatePointsTemplate(pointsTemplate, pointsItem);
                         }
                         break;
                     case AnchorTemplate anchorTemplate:
-                        var anchorItem = JsonConvert.DeserializeObject<AnchorBridgeItem>(result);
+                        var anchorItem = (AnchorBridgeItem)result;
                         if (anchorItem != null)
                         {
                             UpdateAnchorTemplate(anchorTemplate, anchorItem);
                         }
                         break;
                     case ParametricTemplate parametricTemplate:
-                        var parametricItem = JsonConvert.DeserializeObject<ParametricBridgeItem>(result);
+                        var parametricItem = (ParametricBridgeItem)result;
                         if (parametricItem != null)
                         {
                             UpdateParametricTemplate(parametricTemplate, parametricItem);

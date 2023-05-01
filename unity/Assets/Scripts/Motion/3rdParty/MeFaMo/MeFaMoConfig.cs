@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MotionSource._3rdParty.MeFaMo
+namespace Motion._3rdParty.MeFaMo
 {
     public static class MeFaMoConfig
     {

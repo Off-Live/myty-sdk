@@ -14,7 +14,7 @@
 
 using UnityEngine;
 
-namespace MotionSource._3rdParty.KalidoKit
+namespace Motion._3rdParty.KalidoKit
 {
     public class FaceSolver
     {

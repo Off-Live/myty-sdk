@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MotionSource._3rdParty.MeFaMo
+namespace Motion._3rdParty.MeFaMo
 {
     public class FaceGeometry
     {

@@ -1,7 +1,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using UnityEngine;
 
-namespace MotionSource._3rdParty.MeFaMo
+namespace Motion._3rdParty.MeFaMo
 {
     public class ProcrustesSolver
     {

@@ -1,6 +1,6 @@
 using Motion.MotionTemplateBridge;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     public class MPPoints : PointsBridge
     {

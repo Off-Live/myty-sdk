@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     public class MPLeftUpperArm : MPJointModel
     {

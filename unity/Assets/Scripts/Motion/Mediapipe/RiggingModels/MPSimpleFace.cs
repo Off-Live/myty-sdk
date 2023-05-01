@@ -1,7 +1,7 @@
-using MotionSource._3rdParty.MeFaMo;
+using Motion._3rdParty.MeFaMo;
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     public class MPSimpleFace : MPSolverModel
     {

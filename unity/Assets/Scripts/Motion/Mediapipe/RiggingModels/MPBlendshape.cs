@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MotionSource._3rdParty.MeFaMo;
-using MYTYKit.MotionTemplates;
+using Motion._3rdParty.MeFaMo;
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     [Serializable]
     internal class BSItem

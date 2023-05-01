@@ -1,9 +1,8 @@
-using Motion.MotionTemplateBridge;
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
-    public abstract class MPBaseModel : MotionTemplateBridge
+    public abstract class MPBaseModel : MotionTemplateBridge.MotionTemplateBridge
     {
         protected Vector3[] rawPoints;
         protected float[] visibilities;

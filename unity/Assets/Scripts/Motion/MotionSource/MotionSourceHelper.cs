@@ -1,5 +1,3 @@
-using MotionSource;
-
 namespace Motion.MotionSource
 {
     public static class MotionSourceHelper

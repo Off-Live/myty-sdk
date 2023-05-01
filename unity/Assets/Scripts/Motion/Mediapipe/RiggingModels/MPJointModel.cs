@@ -2,7 +2,7 @@ using Motion.Data;
 using Motion.MotionTemplateBridge;
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     public abstract class MPJointModel: PointsBridge
     {

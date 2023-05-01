@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using Motion._3rdParty.MeFaMo;
+using Motion.Mediapipe.RiggingModels;
 using Motion.MotionTemplateBridge;
-using MotionSource._3rdParty.MeFaMo;
-using MotionSource.Mediapipe.RiggingModels;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace MotionSource.Mediapipe
+namespace Motion.Mediapipe
 {
     public class MPMotionSource : Motion.MotionSource.MotionSource
     {

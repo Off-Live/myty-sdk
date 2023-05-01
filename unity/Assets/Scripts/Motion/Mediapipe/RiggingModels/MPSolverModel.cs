@@ -1,7 +1,7 @@
+using Motion._3rdParty.MeFaMo;
 using Motion.MotionTemplateBridge;
-using MotionSource._3rdParty.MeFaMo;
 
-namespace MotionSource.Mediapipe.RiggingModels
+namespace Motion.Mediapipe.RiggingModels
 {
     public abstract class MPSolverModel : ParametricBridge
     {

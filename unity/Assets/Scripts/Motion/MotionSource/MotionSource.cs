@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Motion.MotionSource
@@ -88,15 +86,9 @@ namespace Motion.MotionSource
         public void Process(string result)
         {
             ConvertCapturedResult(result);
-            templateBridgeMap.ForEach(item => Debug.Log($"{item.name} {item.templateBridge}"));
-            var itemList = templateBridgeMap.Select(item =>
-                item.templateBridge.CreateItem()
-            ).ToList();
-            Debug.Log(JsonConvert.SerializeObject(itemList, Formatting.Indented, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            }));
-            // motionProcessor.ProcessCapturedResult(JsonConvert.SerializeObject(itemList));
+            templateBridgeMap.ForEach(item =>
+                motionProcessor.UpdateTemplateByName(item.name, item.templateBridge.CreateItem())
+            );
         }
         
         protected abstract void ConvertCapturedResult(string result);

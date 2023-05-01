@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MotionSource.Mediapipe.RiggingModels.RightHand
+namespace Motion.Mediapipe.RiggingModels.RightHand
 {
     public class MPRightThumbDistal : MPJointModel
     {
