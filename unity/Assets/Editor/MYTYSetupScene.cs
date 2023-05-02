@@ -7,8 +7,7 @@ public class MYTYSetupScene
 {
     public static void Create2DScene()
     {
-        string prefabPath = "Assets/Prefabs/MYTYAvatarObjects.prefab";
-        // string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTYAvatarObjects.prefab";
+        string prefabPath = "Packages/com.offlive.myty.myty-sdk/Prefabs/MYTYAvatarObjects.prefab";
 
         CreateScene(prefabPath, "MYTY2D.unity");
     }
