@@ -342,7 +342,7 @@ MonoBehaviour:
   - name: FaceLandmark
     bridges:
     - {fileID: 8365054402353406646}
-    - {fileID: 0}
+    - {fileID: 4732229615574228924}
   - name: FaceSolver
     bridges:
     - {fileID: 6702532631275809528}
@@ -395,15 +395,15 @@ MonoBehaviour:
     - {fileID: 8365054401557518942}
     - {fileID: 8365054402522354173}
     - {fileID: 8365054403096883833}
-    - {fileID: 0}
+    - {fileID: 172600592065510359}
     - {fileID: 8365054401541164727}
   templateBridgeMap:
   - name: SimpleFaceParam
     templateBridge: {fileID: 6702532631275809528}
   - name: BodyPoints
-    templateBridge: {fileID: 0}
+    templateBridge: {fileID: 172600592065510359}
   - name: FacePoints
-    templateBridge: {fileID: 0}
+    templateBridge: {fileID: 4732229615574228924}
   - name: RightLittleDistal
     templateBridge: {fileID: 8365054403116282373}
   - name: RightLittleIntermediate
@@ -494,8 +494,7 @@ MonoBehaviour:
     templateBridge: {fileID: 8365054402353406646}
   - name: BlendShape
     templateBridge: {fileID: 519816443558668010}
-  motionTemplateMapperList:
-  - {fileID: 5793259143113129039}
+  motionProcessor: {fileID: 0}
 --- !u!1 &8365054401541164725
 GameObject:
   m_ObjectHideFlags: 0
