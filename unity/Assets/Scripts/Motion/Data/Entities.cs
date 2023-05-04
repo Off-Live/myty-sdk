@@ -3,12 +3,6 @@ using UnityEngine;
 
 namespace Motion.Data
 {
-    public class BridgeItemWithName
-    {
-        public string name;
-        public BridgeItem result;
-    }
-
     public abstract class BridgeItem
     {
     }
@@ -32,9 +26,13 @@ namespace Motion.Data
         public Vector3? scale;
     }
 
-    public class CapturedResultWithName
+    public class CalibrationItem
     {
-        public string name;
-        public string result;
+        public float blinkScale = 1.0f;
+        public float syncedBlinkScale = 0.5f;
+        public float pupilScale = 1.0f;
+        public float eyebrowScale = 1.0f;
+        public float mouthXScale = 1.0f;
+        public float mouthYScale = 1.0f;
     }
 }
