@@ -52,5 +52,35 @@ namespace MessageHandler
         {
             motionSource.Process(message);
         }
+
+        public void UpdateSyncedBlinkScale(float value)
+        {
+            motionSource.motionProcessor.SetSyncedBlinkScale(value);
+        }
+
+        public void UpdateBlinkScale(float value)
+        {
+            motionSource.motionProcessor.SetBlinkScale(value);
+        }
+
+        public void UpdatePupilScale(float value)
+        {
+            motionSource.motionProcessor.SetPupilScale(value);
+        }
+
+        public void UpdateEyebrowScale(float value)
+        {
+            motionSource.motionProcessor.SetEyebrowScale(value);
+        }
+
+        public void UpdateMouthXScale(float value)
+        {
+            motionSource.motionProcessor.SetMouthXScale(value);
+        }
+
+        public void UpdateMouthYScale(float value)
+        {
+            motionSource.motionProcessor.SetMouthYScale(value);
+        }
     }
 }
