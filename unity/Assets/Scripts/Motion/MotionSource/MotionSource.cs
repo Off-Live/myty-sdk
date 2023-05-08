@@ -92,5 +92,9 @@ namespace Motion.MotionSource
         }
         
         protected abstract void ConvertCapturedResult(string result);
+        
+        public abstract float GetWorldPointWidth();
+        
+        public abstract float GetWorldPointHeight();
     }
 }

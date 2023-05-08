@@ -13,6 +13,7 @@ namespace Motion.Mediapipe
     {
         MeFaMoSolver m_solver = new();
         Vector3[] m_solverBuffer;
+        public MeshRenderer arBounds;
         protected override void ConvertCapturedResult(string result)
         {
             var obj = JsonConvert.DeserializeObject<MediapipeData>(result);
@@ -49,6 +50,12 @@ namespace Motion.Mediapipe
                 solverModel.SetSolver(m_solver);
                 solverModel.Flush();
             }
+
+            var arFaceBridges = GetBridgesInCategory("ARFace");
+            foreach (var model in arFaceBridges.Select(model => model as PointsBridge))
+            {
+                ProcessNormalizedRelativeToBounds(model, faceData);
+            }
             
             var pose = obj!.pose;
             
@@ -57,6 +64,16 @@ namespace Motion.Mediapipe
             {
                 ProcessNormalizedHolistic(model, pose);
             }
+        }
+
+        public override float GetWorldPointHeight()
+        {
+            return arBounds.bounds.size.x;
+        }
+
+        public override float GetWorldPointWidth()
+        {
+            return arBounds.bounds.size.y;
         }
 
         private void ProcessNormalizedHolistic(PointsBridge model, List<Vector3> landmarkList)
@@ -73,6 +90,27 @@ namespace Motion.Mediapipe
                 model.SetPoint(index, elem, 1.0f);
             }
         
+            model.Flush();
+        }
+
+        private void ProcessNormalizedRelativeToBounds(PointsBridge model, List<Vector3> landmarkList)
+        {
+            if (model == null || landmarkList == null) return;
+
+            if (model.GetNumPoints() != landmarkList.Count)
+            {
+                model.Alloc(landmarkList.Count);
+            }
+
+            var bounds = arBounds.bounds;
+            foreach (var (elem, index) in landmarkList.Select((item, idx) => (item, idx)))
+            {
+                model.SetPoint(index, new Vector3((-elem.x + 0.5f) * bounds.size.x,
+                    -(-elem.y + 0.5f) * bounds.size.y,
+                    elem.z + 0.5f
+                    ), 1.0f);
+            }
+            
             model.Flush();
         }
     }
