@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using AR;
 using Avatar;
 using Avatar.Impl;
 using Avatar.Interface;
@@ -14,6 +16,9 @@ namespace MessageHandler
         AvatarDownloader m_avatarDownloader;
         [SerializeField]
         AvatarManager m_avatarManager;
+        [SerializeField]
+        ARFaceControl m_arFaceControl;
+
         public Motion.MotionSource.MotionSource motionSource;
 
         void Start()
@@ -53,34 +58,54 @@ namespace MessageHandler
             motionSource.Process(message);
         }
 
-        public void UpdateSyncedBlinkScale(float value)
+        public void UpdateSyncedBlinkScale(string value)
         {
-            motionSource.motionProcessor.SetSyncedBlinkScale(value);
+            motionSource.motionProcessor.SetSyncedBlinkScale(float.Parse(value));
         }
 
-        public void UpdateBlinkScale(float value)
+        public void UpdateBlinkScale(string value)
         {
-            motionSource.motionProcessor.SetBlinkScale(value);
+            motionSource.motionProcessor.SetBlinkScale(float.Parse(value));
         }
 
-        public void UpdatePupilScale(float value)
+        public void UpdatePupilScale(string value)
         {
-            motionSource.motionProcessor.SetPupilScale(value);
+            motionSource.motionProcessor.SetPupilScale(float.Parse(value));
         }
 
-        public void UpdateEyebrowScale(float value)
+        public void UpdateEyebrowScale(string value)
         {
-            motionSource.motionProcessor.SetEyebrowScale(value);
+            motionSource.motionProcessor.SetEyebrowScale(float.Parse(value));
         }
 
-        public void UpdateMouthXScale(float value)
+        public void UpdateMouthXScale(string value)
         {
-            motionSource.motionProcessor.SetMouthXScale(value);
+            motionSource.motionProcessor.SetMouthXScale(float.Parse(value));
         }
 
-        public void UpdateMouthYScale(float value)
+        public void UpdateMouthYScale(string value)
         {
-            motionSource.motionProcessor.SetMouthYScale(value);
+            motionSource.motionProcessor.SetMouthYScale(float.Parse(value));
+        }
+
+        public void SetARFaceXOffset(string value)
+        {
+            m_arFaceControl.SetXOffset(float.Parse(value));
+        }
+
+        public void SetARFaceYOffset(string value)
+        {
+            m_arFaceControl.SetYOffset(float.Parse(value));
+        }
+
+        public void SetARFaceScale(string value)
+        {
+            m_arFaceControl.SetScale(float.Parse(value));
+        }
+
+        public void SetARFaceAsDefault(string _)
+        {
+            m_arFaceControl.SetControlAsDefault();
         }
     }
 }

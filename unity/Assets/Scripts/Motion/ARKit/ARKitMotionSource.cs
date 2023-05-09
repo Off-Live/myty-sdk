@@ -33,5 +33,15 @@ namespace Motion.ARKit
                 bridge.Flush();
             }
         }
+
+        public override float GetWorldPointWidth()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override float GetWorldPointHeight()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

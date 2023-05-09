@@ -1,3 +1,4 @@
+using System.Globalization;
 using Data;
 using Newtonsoft.Json;
 using UnityEditor;
@@ -19,11 +20,15 @@ namespace Editor
             var avatarManager = new PropertyField();
             avatarManager.BindProperty(serializedObject.FindProperty("m_avatarManager"));
             
+            var arFaceControl = new PropertyField();
+            arFaceControl.BindProperty(serializedObject.FindProperty("m_arFaceControl"));
+            
             var motionSource = new PropertyField();
             motionSource.BindProperty(serializedObject.FindProperty("motionSource"));
             
             root.Add(avatarLoader);
             root.Add(avatarManager);
+            root.Add(arFaceControl);
             root.Add(motionSource);
 
             var avatarCollectionIdField1 = new LongField
@@ -119,43 +124,74 @@ namespace Editor
             syncedBlinkScale.value = 0.5f;
             syncedBlinkScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdateSyncedBlinkScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdateSyncedBlinkScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
 
             var blinkScale = new Slider("Blink", 0f, 2.0f);
             blinkScale.value = 1.0f;
             blinkScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdateBlinkScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdateBlinkScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
 
             var pupilScale = new Slider("Pupil", 0f, 2.0f);
             pupilScale.value = 1.0f;
             pupilScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdatePupilScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdatePupilScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
 
             var eyebrowScale = new Slider("Eyebrow", 0f, 2.0f);
             eyebrowScale.value = 1.0f;
             eyebrowScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdateEyebrowScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdateEyebrowScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
 
             var mouthXScale = new Slider("MouthX", 0f, 2.0f);
             mouthXScale.value = 1.0f;
             mouthXScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdateMouthXScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdateMouthXScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
 
             var mouthYScale = new Slider("MouthY", 0f, 2.0f);
             mouthYScale.value = 1.0f;
             mouthYScale.RegisterValueChangedCallback((evt) =>
             {
-                (target as MessageHandler.MessageHandler)!.UpdateMouthYScale(evt.newValue);
+                (target as MessageHandler.MessageHandler)!.UpdateMouthYScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
             });
+            
+            var arXOffset = new Slider("ARXOffset", -1.0f, 1.0f);
+            arXOffset.value = 0.0f;
+            arXOffset.RegisterValueChangedCallback((evt) =>
+            {
+                (target as MessageHandler.MessageHandler)!.SetARFaceXOffset(evt.newValue.ToString(CultureInfo.InvariantCulture));
+            });
+            
+            var arYOffset = new Slider("ARYOffset", -1.0f, 1.0f);
+            arYOffset.value = 0.0f;
+            arYOffset.RegisterValueChangedCallback((evt) =>
+            {
+                (target as MessageHandler.MessageHandler)!.SetARFaceYOffset(evt.newValue.ToString(CultureInfo.InvariantCulture));
+            });
+            
+            var arScale = new Slider("ARScale", 0.5f, 2.0f);
+            arScale.value = 1.0f;
+            arScale.RegisterValueChangedCallback((evt) =>
+            {
+                (target as MessageHandler.MessageHandler)!.SetARFaceScale(evt.newValue.ToString(CultureInfo.InvariantCulture));
+            });
+            
+            var setAsDefault = new Button
+            {
+                text = "Set AR Face Default"
+            };
+
+            setAsDefault.clicked += () =>
+            {
+                (target as MessageHandler.MessageHandler)!.SetARFaceAsDefault("");
+            };
 
             root.Add(avatarCollectionIdField1);
             root.Add(tokenIdField1);
@@ -178,6 +214,11 @@ namespace Editor
             root.Add(eyebrowScale);
             root.Add(mouthXScale);
             root.Add(mouthYScale);
+            
+            root.Add(arXOffset);
+            root.Add(arYOffset);
+            root.Add(arScale);
+            root.Add(setAsDefault);
             
             return root;
         }
