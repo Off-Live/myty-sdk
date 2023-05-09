@@ -56,7 +56,7 @@ namespace Editor
 
                 if (prefabPath.Contains("Mediapipe"))
                 {
-                    (motionSource as MPMotionSource)!.arBounds = Object.FindObjectOfType<MeshRenderer>();
+                    (motionSource as MPMotionSource)!.arBounds = GameObject.FindWithTag("MainRenderer").GetComponent<MeshRenderer>();
                 }
 
                 Selection.activeGameObject = instance;
