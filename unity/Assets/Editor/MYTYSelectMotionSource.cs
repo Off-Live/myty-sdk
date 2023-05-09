@@ -1,4 +1,5 @@
 using AR;
+using Motion.Mediapipe;
 using Motion.MotionProcessor;
 using MYTYKit.MotionTemplates;
 using UnityEditor;
@@ -47,16 +48,15 @@ namespace Editor
                 var motionProcessor = Object.FindObjectOfType<MotionProcessor>();
 
                 var messageHandler = Object.FindObjectOfType<MessageHandler.MessageHandler>();
+                var arFaceControl = Object.FindObjectOfType<ARFaceControl>();
 
                 messageHandler.motionSource = motionSource;
+                arFaceControl.motionSource = motionSource;
                 motionSource.motionProcessor = motionProcessor;
 
-                var motionTemplateMapper = Object.FindObjectOfType<MotionTemplateMapper>();
-                var arFacePlane = Object.FindObjectOfType<ARFacePlane>();
-
-                if (motionTemplateMapper != null && arFacePlane != null)
+                if (prefabPath.Contains("Mediapipe"))
                 {
-                    arFacePlane.motionTemplateMapper = motionTemplateMapper;
+                    (motionSource as MPMotionSource)!.arBounds = Object.FindObjectOfType<MeshRenderer>();
                 }
 
                 Selection.activeGameObject = instance;

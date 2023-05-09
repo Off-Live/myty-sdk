@@ -16,14 +16,12 @@ namespace Editor
             var categoryField = new PropertyField();
             var templateBridgeField = new PropertyField();
             var motionProcessorField = new PropertyField();
-            var arBoundsField = new PropertyField();
             var categoryButton = new Button();
             var bridgeButton = new Button();
         
             categoryField.BindProperty(serializedObject.FindProperty("motionCategories"));
             templateBridgeField.BindProperty(serializedObject.FindProperty("templateBridgeMap"));
             motionProcessorField.BindProperty(serializedObject.FindProperty("motionProcessor"));
-            arBoundsField.BindProperty(serializedObject.FindProperty("arBounds"));
             categoryButton.text = "Autobuild Category";
             categoryButton.clicked += () =>
             {
@@ -62,6 +60,12 @@ namespace Editor
             root.Add(categoryField);
             root.Add(templateBridgeField);
             root.Add(motionProcessorField);
+            if (serializedObject.FindProperty("arBounds") != null)
+            {
+                var arBounds = new PropertyField();
+                arBounds.BindProperty(serializedObject.FindProperty("arBounds"));
+                root.Add(arBounds);
+            }
             root.Add(categoryButton);
             root.Add(bridgeButton);
             return root;
