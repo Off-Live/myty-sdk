@@ -6,9 +6,19 @@ export interface MYTYSDKContext {
     unityContext: UnityContextHook,
     loadAvatar: (avatarCollectionId: number, metadataAssetUri: string, tokenId: string, tokenAssetUri: string) => void,
     selectAvatar: (avatarCollectionId: number, tokenId: string) => void,
-    setARMode: (flag: string) => void,
+    switchMode: () => void,
     processCapturedResult: (data: string) => void,
     takeScreenshot: (dataType?: string, quality?: number) => string | undefined
+    updateCalibration: (type: CalibrationType, value: number) => void
+}
+
+export enum CalibrationType {
+    SyncedBlink,
+    Blink,
+    Eyebrow,
+    Pupil,
+    MouthX,
+    MouthY
 }
 
 const MESSAGE_HANDLER = 'MessageHandler'
@@ -33,13 +43,36 @@ const MYTYSDKContextProvider = ({ config, children }: { config: UnityConfig, chi
         }))
     }
 
-    const setARMode = (flag: string) => unityContext.sendMessage(MESSAGE_HANDLER, "SetARMode", flag)
+    const switchMode = () => unityContext.sendMessage(MESSAGE_HANDLER, "SwitchMode", "_")
 
     const processCapturedResult = (data: string) => unityContext.sendMessage(MESSAGE_HANDLER, "ProcessCapturedResult", data)
 
     const takeScreenshot = unityContext.takeScreenshot
 
-    return <mytySDKContext.Provider value={{ unityContext, loadAvatar, selectAvatar, setARMode, processCapturedResult, takeScreenshot }}>{children}</mytySDKContext.Provider>
+    const updateCalibration = (type: CalibrationType, value: number) => {
+        switch (type) {
+            case CalibrationType.SyncedBlink:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdateSyncedBlinkScale", value.toString())
+                break
+            case CalibrationType.Blink:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdateBlinkScale", value.toString())
+                break
+            case CalibrationType.Eyebrow:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdateEyebrowScale", value.toString())
+                break
+            case CalibrationType.Pupil:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdatePupilScale", value.toString())
+                break
+            case CalibrationType.MouthX:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdateMouthXScale", value.toString())
+                break
+            case CalibrationType.MouthY:
+                unityContext.sendMessage(MESSAGE_HANDLER, "UpdateMouthYScale", value.toString())
+                break
+        }
+    }
+
+    return <mytySDKContext.Provider value={{ unityContext, loadAvatar, selectAvatar, switchMode, processCapturedResult, takeScreenshot, updateCalibration }}>{children}</mytySDKContext.Provider>
 }
 
 export { mytySDKContext, MYTYSDKContextProvider }
