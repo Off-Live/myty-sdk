@@ -13,7 +13,7 @@ namespace Motion.ARKit
             var headBridge = GetBridgesInCategory("Anchors");
             foreach (var bridge in headBridge)
             {
-                var arHeadRotation = bridge as ARHeadRotation;
+                var arHeadRotation = bridge as ARKitHeadRotation;
                 arHeadRotation.up = obj!.up;
                 arHeadRotation.lookAt = obj!.forward;
                 arHeadRotation.position = obj!.facePosition;

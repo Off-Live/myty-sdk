@@ -2,7 +2,7 @@ using Motion.MotionTemplateBridge;
 
 namespace Motion.ARKit.RiggingModels
 {
-    public class ARHeadRotation : AnchorBridge
+    public class ARKitHeadRotation : AnchorBridge
     {
         protected override void Process()
         {

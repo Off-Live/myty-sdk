@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_avatarDownloader: {fileID: 3942447663419482712}
   m_avatarManager: {fileID: 3141830540326533986}
+  m_arFaceControl: {fileID: 7597550614355740725}
   motionSource: {fileID: 0}
 --- !u!1 &581143392511954362
 GameObject:
@@ -202,7 +203,7 @@ GameObject:
   - component: {fileID: 581143393061726445}
   - component: {fileID: 581143393061726443}
   - component: {fileID: 581143393061726442}
-  - component: {fileID: 8885428813395241234}
+  - component: {fileID: 7597550614355740725}
   m_Layer: 0
   m_Name: ARFacePlane
   m_TagString: Untagged
@@ -289,7 +290,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8885428813395241234
+--- !u!114 &7597550614355740725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,14 +299,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 581143393061726447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e314362ef8e34473bbae0bca471d4f62, type: 3}
+  m_Script: {fileID: 11500000, guid: 324dff645c1341838c7285c1347011d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionTemplateMapper: {fileID: 0}
-  arBounds: {fileID: 581143392511954361}
+  motionTemplateMapper: {fileID: 1854306668414991902}
+  motionSource: {fileID: 0}
   facePlane: {fileID: 581143393061726444}
-  m_mainCamera: {fileID: 581143393801391981}
-  m_renderingObjects: {fileID: 581143393545684120}
 --- !u!1 &581143393545684120
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,6 +336,7 @@ Transform:
   - {fileID: 581143392511954358}
   - {fileID: 581143393061726444}
   - {fileID: 581143393801391978}
+  - {fileID: 3832121759243758465}
   m_Father: {fileID: 581143393993509188}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -384,14 +384,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcbe84d31424bdba0050c5521965ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motionSource: {fileID: 0}
-  m_fvAvatarMaterial: {fileID: 0}
-  m_arFaceMaterial: {fileID: 0}
-  m_avatarRenderer: {fileID: 0}
-  m_arFacePlane: {fileID: 0}
+  motionProcessor: {fileID: 8233612960237425616}
+  m_fvAvatarMaterial: {fileID: 2100000, guid: 99e8bff26f8ca4f31a974ee30835c3d5, type: 2}
+  m_arFaceMaterial: {fileID: 2100000, guid: e9ee15d0386b242d5a0cc2f9a0384a1d, type: 2}
+  m_avatarRenderer: {fileID: 581143392511954361}
+  m_arFacePlane: {fileID: 581143393061726447}
   avatarLoadedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8885428814140419363}
+        m_TargetAssemblyTypeName: MessageHandler.FlutterMessageSender, MYTYSDK
+        m_MethodName: AvatarLoaded
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &581143393801391983
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,9 +522,152 @@ Transform:
   - {fileID: 581143393598288015}
   - {fileID: 8885428814140419364}
   - {fileID: 8885428813382187384}
+  - {fileID: 8820731484586794965}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2618837676848074432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8820731484586794965}
+  - component: {fileID: 8233612960237425616}
+  m_Layer: 0
+  m_Name: MotionProcessor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8820731484586794965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618837676848074432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 581143393993509188}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8233612960237425616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2618837676848074432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e43beebcc04815922269fedd00944f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motionTemplateMapperList:
+  - {fileID: 1854306668414991902}
+--- !u!1 &2999615573287529182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3832121759243758465}
+  - component: {fileID: 1854306668414991902}
+  m_Layer: 0
+  m_Name: ARFaceMapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3832121759243758465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999615573287529182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6195572975752685735}
+  m_Father: {fileID: 581143393545684121}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1854306668414991902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999615573287529182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f7724ab5fed49d194932b41e2dbe21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templates:
+  - name: NormalizedARFace
+    template: {fileID: 317416824464524288}
+--- !u!1 &8546691022660317507
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6195572975752685735}
+  - component: {fileID: 317416824464524288}
+  m_Layer: 0
+  m_Name: NormalizedARFace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6195572975752685735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546691022660317507}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3832121759243758465}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &317416824464524288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8546691022660317507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97af8029be4b45b38dd88e2e6c80df53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {x: 0, y: 0, z: 0}
+  lookAt: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
 --- !u!1 &8885428813382187385
 GameObject:
   m_ObjectHideFlags: 0

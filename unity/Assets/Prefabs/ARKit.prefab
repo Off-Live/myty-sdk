@@ -28,7 +28,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 359903685578703350}
   - {fileID: 359903686204079520}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 359903685366501644}
   m_Layer: 0
-  m_Name: Anchors
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,102 +64,6 @@ Transform:
   m_Father: {fileID: 359903686204079520}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &359903685578703353
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 359903685578703350}
-  - component: {fileID: 359903685578703351}
-  m_Layer: 0
-  m_Name: ARKitARFaceLocation
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &359903685578703350
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359903685578703353}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 359903685661771198}
-  m_Father: {fileID: 359903685356375919}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &359903685578703351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359903685578703353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63f7724ab5fed49d194932b41e2dbe21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  templates:
-  - name: Head
-    template: {fileID: 359903685661771199}
---- !u!1 &359903685661771137
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 359903685661771198}
-  - component: {fileID: 359903685661771199}
-  m_Layer: 0
-  m_Name: ARHead
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &359903685661771198
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359903685661771137}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 359903685578703350}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &359903685661771199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 359903685661771137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97af8029be4b45b38dd88e2e6c80df53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  up: {x: 0, y: 0, z: 0}
-  lookAt: {x: 0, y: 0, z: 0}
-  position: {x: 0, y: 0, z: 0}
-  scale: {x: 1, y: 1, z: 1}
 --- !u!1 &359903685978511179
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +127,7 @@ GameObject:
   - component: {fileID: 359903686020678978}
   - component: {fileID: 359903686020678979}
   m_Layer: 0
-  m_Name: ARHeadRotation
+  m_Name: HeadRotation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,8 +195,9 @@ Transform:
   m_Children:
   - {fileID: 359903685366501644}
   - {fileID: 359903686230468431}
+  - {fileID: 487325549230565590}
   m_Father: {fileID: 359903685356375919}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &359903686204079521
 MonoBehaviour:
@@ -308,22 +212,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   motionCategories:
-  - name: Anchors
+  - name: Head
     bridges:
     - {fileID: 359903686020678979}
-  - name: Parametric
+  - name: Face
     bridges:
     - {fileID: 359903685978511177}
-  - name: HeadPose
+  - name: ARFace
     bridges:
-    - {fileID: 359903685978511177}
+    - {fileID: 7369201903265938627}
   templateBridgeMap:
   - name: SimpleFaceParam
     templateBridge: {fileID: 359903685978511177}
   - name: Head
     templateBridge: {fileID: 359903686020678979}
-  motionTemplateMapperList:
-  - {fileID: 359903685578703351}
+  - name: NormalizedFace
+    templateBridge: {fileID: 7369201903265938627}
+  motionProcessor: {fileID: 0}
 --- !u!1 &359903686230468430
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,7 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 359903686230468431}
   m_Layer: 0
-  m_Name: Parametric
+  m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -355,4 +260,84 @@ Transform:
   - {fileID: 359903685978511176}
   m_Father: {fileID: 359903686204079520}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4710120736348624303
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4030455419446780575}
+  - component: {fileID: 7369201903265938627}
+  m_Layer: 0
+  m_Name: NormalizedFace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4030455419446780575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710120736348624303}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 487325549230565590}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7369201903265938627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710120736348624303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27b9d359d3c481999621996bd7a3d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: {x: 0, y: 0, z: 0}
+  lookAt: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  scale: {x: 0, y: 0, z: 0}
+--- !u!1 &5832565805534470501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 487325549230565590}
+  m_Layer: 0
+  m_Name: ARFace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487325549230565590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5832565805534470501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4030455419446780575}
+  m_Father: {fileID: 359903686204079520}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
