@@ -95,7 +95,7 @@ namespace Motion.Mediapipe
 
         private void ProcessNormalizedRelativeToBounds(PointsBridge model, List<Vector3> landmarkList)
         {
-            if (model == null || landmarkList == null) return;
+            if (model == null || landmarkList == null || arBounds == null) return;
 
             if (model.GetNumPoints() != landmarkList.Count)
             {

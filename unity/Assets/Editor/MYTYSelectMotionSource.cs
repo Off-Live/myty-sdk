@@ -52,12 +52,15 @@ namespace Editor
                 var arFaceControl = Object.FindObjectOfType<ARFaceControl>();
 
                 messageHandler.motionSource = motionSource;
-                arFaceControl.motionSource = motionSource;
+                if (arFaceControl != null)
+                {
+                    arFaceControl.motionSource = motionSource;
+                }
                 motionSource.motionProcessor = motionProcessor;
 
                 if (prefabPath.Contains("Mediapipe"))
                 {
-                    (motionSource as MPMotionSource)!.arBounds = GameObject.FindWithTag("MainRenderer").GetComponent<MeshRenderer>();
+                    (motionSource as MPMotionSource)!.arBounds = GameObject.FindWithTag("MainRenderer")?.GetComponent<MeshRenderer>();
                 } else if (prefabPath.Contains("ARKit"))
                 {
                     (motionSource as ARKitMotionSource)!.mainCamera = Camera.main;
