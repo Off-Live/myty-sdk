@@ -10,6 +10,7 @@ export interface MYTYSDKContext {
     processCapturedResult: (data: string) => void,
     takeScreenshot: (dataType?: string, quality?: number) => string | undefined
     updateCalibration: (type: CalibrationType, value: number) => void
+    controlARFace: (type: ARFaceControlType, value: number) => void
 }
 
 export enum CalibrationType {
@@ -19,6 +20,12 @@ export enum CalibrationType {
     Pupil,
     MouthX,
     MouthY
+}
+
+export enum ARFaceControlType {
+    XOffset,
+    YOffset,
+    Scale
 }
 
 const MESSAGE_HANDLER = 'MessageHandler'
@@ -72,7 +79,21 @@ const MYTYSDKContextProvider = ({ config, children }: { config: UnityConfig, chi
         }
     }
 
-    return <mytySDKContext.Provider value={{ unityContext, loadAvatar, selectAvatar, switchMode, processCapturedResult, takeScreenshot, updateCalibration }}>{children}</mytySDKContext.Provider>
+    const controlARFace = (type: ARFaceControlType, value: number) => {
+        switch (type) {
+            case ARFaceControlType.XOffset:
+                unityContext.sendMessage(MESSAGE_HANDLER, "SetARFaceXOffset", value.toString())
+                break
+            case ARFaceControlType.YOffset:
+                unityContext.sendMessage(MESSAGE_HANDLER, "SetARFaceYOffset", value.toString())
+                break
+            case ARFaceControlType.Scale:
+                unityContext.sendMessage(MESSAGE_HANDLER, "SetARFaceScale", value.toString())
+                break
+        }
+    }
+
+    return <mytySDKContext.Provider value={{ unityContext, loadAvatar, selectAvatar, switchMode, processCapturedResult, takeScreenshot, updateCalibration, controlARFace }}>{children}</mytySDKContext.Provider>
 }
 
 export { mytySDKContext, MYTYSDKContextProvider }

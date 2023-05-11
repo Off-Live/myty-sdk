@@ -4,7 +4,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Select from 'react-select';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { MYTYSDKContext, mytySDKContext, CalibrationType } from "../context/MYTYSDKContext"
+import { MYTYSDKContext, mytySDKContext, CalibrationType, ARFaceControlType } from "../context/MYTYSDKContext"
 import VideoDeviceSelect from './VideoDeviceSelect';
 import MYTYSDKView from './MYTYSDKView';
 import useCaptureRecord from '../hooks/useCaptureRecord';
@@ -22,7 +22,7 @@ export type Asset = {
 }
 
 function ExampleView() {
-  const { loadAvatar, selectAvatar, switchMode, updateCalibration } = useContext(mytySDKContext) as MYTYSDKContext
+  const { loadAvatar, selectAvatar, switchMode, updateCalibration, controlARFace } = useContext(mytySDKContext) as MYTYSDKContext
   const { captureImage, stopRecordingVideo, startRecordingVideo } = useCaptureRecord();
   const [templates, setTemplates] = useState<AssetVersion[]>([]);
   const [tokens, setTokens] = useState<Asset[]>([]);
@@ -35,6 +35,10 @@ function ExampleView() {
   const [pupilScale, setPupilScale] = useState<number>(100);
   const [mouthXScale, setMouthXScale] = useState<number>(100);
   const [mouthYScale, setMouthYScale] = useState<number>(100);
+
+  const [arFaceXOffset, setARFaceXoffset] = useState<number>(0)
+  const [arFaceYOffset, setARFaceYoffset] = useState<number>(0)
+  const [arFaceScale, setARFaceScale] = useState<number>(1)
 
   const fetchTemplates = () => {
     setTemplates([
@@ -93,6 +97,21 @@ function ExampleView() {
     setMouthYScale(newValue as number)
     updateCalibration(CalibrationType.MouthY, newValue as number / 100)
   };
+
+  const handleARFaceXOffset = (event: Event, newValue: number | number[]) => {
+    setARFaceXoffset(newValue as number)
+    controlARFace(ARFaceControlType.XOffset, newValue as number)
+  }
+
+  const handleARFaceYOffset = (event: Event, newValue: number | number[]) => {
+    setARFaceYoffset(newValue as number)
+    controlARFace(ARFaceControlType.YOffset, newValue as number)
+  }
+
+  const handleARFaceScale = (event: Event, newValue: number | number[]) => {
+    setARFaceScale(newValue as number)
+    controlARFace(ARFaceControlType.Scale, newValue as number)
+  }
 
   return (
     <Grid container spacing={2}>
@@ -176,6 +195,38 @@ function ExampleView() {
           step={1}
           min={0}
           max={200}
+        />
+      </Grid>
+      <Grid item xs={5}>
+        <Typography>
+          AR Face XOffset
+        </Typography>
+        <Slider
+          value={arFaceXOffset}
+          onChange={handleARFaceXOffset}
+          step={0.01}
+          min={-1}
+          max={1}
+        />
+        <Typography>
+          AR Face YOffset
+        </Typography>
+        <Slider
+          value={arFaceYOffset}
+          onChange={handleARFaceYOffset}
+          step={0.01}
+          min={-1}
+          max={1}
+        />
+        <Typography>
+          AR Face Scale
+        </Typography>
+        <Slider
+          value={arFaceScale}
+          onChange={handleARFaceScale}
+          step={0.01}
+          min={0.5}
+          max={2}
         />
       </Grid>
     </Grid>
