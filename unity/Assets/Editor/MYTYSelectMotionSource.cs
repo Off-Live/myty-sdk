@@ -1,4 +1,5 @@
 using AR;
+using Motion.ARKit;
 using Motion.Mediapipe;
 using Motion.MotionProcessor;
 using MYTYKit.MotionTemplates;
@@ -57,6 +58,10 @@ namespace Editor
                 if (prefabPath.Contains("Mediapipe"))
                 {
                     (motionSource as MPMotionSource)!.arBounds = GameObject.FindWithTag("MainRenderer").GetComponent<MeshRenderer>();
+                } else if (prefabPath.Contains("ARKit"))
+                {
+                    (motionSource as ARKitMotionSource)!.mainCamera = Camera.main;
+                    (motionSource as ARKitMotionSource)!.renderingObjects = GameObject.FindWithTag("MainRenderer").transform.parent.gameObject;
                 }
 
                 Selection.activeGameObject = instance;
