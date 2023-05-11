@@ -7,9 +7,33 @@ enum UnityEventTopic {
   LoadAvatar,
   LoadAvatarList,
   SelectAvatar,
-  SetARMode,
+  SwitchMode,
   ProcessCapturedResult,
+  UpdateSyncedBlinkScale,
+  UpdateBlinkScale,
+  UpdatePupilScale,
+  UpdateEyebrowScale,
+  UpdateMouthXScale,
+  UpdateMouthYScale,
+  SetARFaceXOffset,
+  SetARFaceYOffset,
+  SetARFaceScale,
   None
+}
+
+enum CalibrationType {
+  SyncedBlink,
+  Blink,
+  Eyebrow,
+  Pupil,
+  MouthX,
+  MouthY
+}
+
+enum ARFaceControlType {
+  XOffset,
+  YOffset,
+  Scale
 }
 
 extension UnityEventName on UnityEventTopic {
@@ -23,10 +47,28 @@ extension UnityEventName on UnityEventTopic {
         return 'LoadAvatarList';
       case UnityEventTopic.SelectAvatar:
         return 'SelectAvatar';
-      case UnityEventTopic.SetARMode:
-        return 'SetARMode';
+      case UnityEventTopic.SwitchMode:
+        return 'SwitchMode';
       case UnityEventTopic.ProcessCapturedResult:
         return 'ProcessCapturedResult';
+      case UnityEventTopic.UpdateSyncedBlinkScale:
+        return 'UpdateSyncedBlinkScale';
+      case UnityEventTopic.UpdateBlinkScale:
+        return 'UpdateBlinkScale';
+      case UnityEventTopic.UpdateEyebrowScale:
+        return 'UpdateEyebrowScale';
+      case UnityEventTopic.UpdatePupilScale:
+        return 'UpdatePupilScale';
+      case UnityEventTopic.UpdateMouthXScale:
+        return 'UpdateMouthXScale';
+      case UnityEventTopic.UpdateMouthYScale:
+        return 'UpdateMouthYScale';
+      case UnityEventTopic.SetARFaceXOffset:
+        return 'SetARFaceXOffset';
+      case UnityEventTopic.SetARFaceYOffset:
+        return 'SetARFaceYOffset';
+      case UnityEventTopic.SetARFaceScale:
+        return 'SetARFaceScale';
       case UnityEventTopic.None:
         return '';
       default:
@@ -67,12 +109,9 @@ class UnityInitializedEvent extends UnityEvent {
   });
 }
 
-class UnitySetARModeEvent extends UnityEvent {
-  final bool isARMode;
+class UnitySwitchModeEvent extends UnityEvent {
 
-  UnitySetARModeEvent({
-    required this.isARMode
-  });
+  UnitySwitchModeEvent();
 }
 
 class UnityMotionCapturedEvent extends UnityEvent {
@@ -88,5 +127,25 @@ class UnityMessageArrivedEvent extends UnityEvent {
 
   UnityMessageArrivedEvent({
     required this.message
+  });
+}
+
+class UnityCalibrationEvent extends UnityEvent {
+  final CalibrationType type;
+  final double value;
+
+  UnityCalibrationEvent({
+    required this.type,
+    required this.value
+  });
+}
+
+class UnityARFaceControlEvent extends UnityEvent {
+  final ARFaceControlType type;
+  final double value;
+
+  UnityARFaceControlEvent({
+    required this.type,
+    required this.value
   });
 }

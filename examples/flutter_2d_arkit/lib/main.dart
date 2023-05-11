@@ -2,6 +2,7 @@ import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_2d_arkit/bloc/unity_bloc.dart';
 import 'package:flutter_2d_arkit/components/avatar_button.dart';
+import 'package:flutter_2d_arkit/components/control_panel.dart';
 import 'package:flutter_2d_arkit/components/myty_avatar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,6 +46,7 @@ class _ExampleAppState extends State<ExampleApp> {
     return Stack(
       children: [
         const MYTYAvatarWidget(),
+        const ControlPanel(),
         Positioned(
           top: 20,
           right: 10,
@@ -55,7 +57,7 @@ class _ExampleAppState extends State<ExampleApp> {
                 _isARMode = !_isARMode;
                 context
                     .read<UnityBloc>()
-                    .add(UnitySetARModeEvent(isARMode: _isARMode));
+                    .add(UnitySwitchModeEvent());
               });
             },
           ),
